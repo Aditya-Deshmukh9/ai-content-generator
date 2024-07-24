@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import HeaderNav from "./_components/HeaderNav";
 import SideNav from "./_components/SideNav";
+import Loading from "./loading";
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -11,7 +13,7 @@ export default function DashboardLayout({
       <SideNav />
       <div className="flex flex-col">
         <HeaderNav />
-        {children}
+        <Suspense fallback={<Loading />}>{children}</Suspense>
       </div>
     </div>
   );

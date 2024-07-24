@@ -17,7 +17,7 @@ function TamplatelistSection({ SearcInput }: any) {
     );
   }, [SearcInput]);
   return (
-    <div className="grid w-full grid-cols-2 gap-2 p-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+    <div className="grid max-h-svh w-full grid-cols-2 gap-2 p-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
       {filterTamplate.map((data, index) => (
         // @ts-ignore
         <TamplateCard key={index} {...data} />

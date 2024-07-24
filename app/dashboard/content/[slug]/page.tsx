@@ -11,24 +11,26 @@ import { chatSession } from "@/utils/AiModal";
 function TamplateDetailsPage({ params }: { params: { slug: string } }) {
   const [aiOutput, setaiOutput] = useState<string>("");
   const [loading, setloading] = useState(false);
+
   const selectedTamplates = useMemo(
     () => Tamplates.filter((item) => item.slug.includes(params.slug)),
     [params.slug],
   );
+
   const GenerateAiContent = async (formData: any) => {
     setloading(true);
     // @ts-ignore
     const selectedPrompt = selectedTamplates?.aiPrompt;
     const FinalPrompt = JSON.stringify(formData) + " ," + selectedPrompt;
     const result = await chatSession.sendMessage(FinalPrompt);
-    console.log(result.response.text());
+    console.log(result);
 
     setaiOutput(result.response.text());
     setloading(false);
   };
 
   return (
-    <div>
+    <div className="h-screen w-full">
       <Link href={"/dashboard"}>
         <Button variant={"bgColor"} className="bg-textColor ml-5 mt-5">
           <ArrowLeft /> Back
@@ -42,7 +44,7 @@ function TamplateDetailsPage({ params }: { params: { slug: string } }) {
           loading={loading}
         />
 
-        <OutputSection aiOutput={aiOutput} loading={loading} />
+        <OutputSection aiOutput={aiOutput} />
       </div>
     </div>
   );
