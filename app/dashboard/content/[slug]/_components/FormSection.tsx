@@ -30,32 +30,32 @@ function FormSection({ selectedTamplates, userFormInput, loading }: PROPS) {
 
   return (
     <div className="h-fit w-fit p-6">
-      <Image src={selectedTamplates.icon} alt="image" height={70} width={70} />
-      <h2 className="headerText">{selectedTamplates.name}</h2>
-      <p className="text-black">{selectedTamplates.desc}</p>
+      <Image src={selectedTamplates?.icon} alt="image" height={70} width={70} />
+      <h2 className="headerText">{selectedTamplates?.name}</h2>
+      <p className="text-black">{selectedTamplates?.desc}</p>
       <form className="mt-4 py-2" onSubmit={onSubmit}>
-        {selectedTamplates.form.map((data: any) => (
+        {selectedTamplates?.form?.map((data: any) => (
           <div
-            key={data.name}
+            key={data?.name}
             className="grid w-full items-center gap-1.5 py-2"
           >
             {/* @ts-ignore */}
-            <Label htmlFor={data.name} className="font-bold text-black">
-              {data.label} {data.required ? null : "[Optional]"}
+            <Label htmlFor={data?.name} className="font-bold text-black">
+              {data?.label} {data?.required ? null : "[Optional]"}
             </Label>
-            {data.field === "input" ? (
+            {data?.field === "input" ? (
               <Input
                 type="text"
-                name={data.name}
-                placeholder={data.label}
+                name={data?.name}
+                placeholder={data?.label}
                 className="text-black shadow-lg"
                 onChange={handleInputChange}
-                required={data.required}
+                required={data?.required}
               />
-            ) : data.field === "textarea" ? (
+            ) : data?.field === "textarea" ? (
               <Textarea
-                name={data.name}
-                placeholder={data.label}
+                name={data?.name}
+                placeholder={data?.label}
                 className="shadow-lg"
                 onChange={handleInputChange}
                 required={data?.required}

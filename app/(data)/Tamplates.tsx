@@ -38,6 +38,22 @@ export default [
     ],
   },
   {
+    name: "Text To Emoji",
+    desc: "An AI tool that converts normal text to emoji text based on provided input.",
+    category: "Text Conversion",
+    icon: "https://cdn-icons-png.flaticon.com/128/10026/10026257.png", // Update with an appropriate icon URL if needed
+    aiPrompt: "Convert the following normal text into emoji text:",
+    slug: "convert-text-to-emoji",
+    form: [
+      {
+        label: "Enter your normal text",
+        field: "textarea",
+        name: "normalText",
+        required: true,
+      },
+    ],
+  },
+  {
     name: "Instagram Caption Generator",
     desc: "This free AI-powered Instagram caption generator creates the perfect caption for your photo to help you get more likes, followers, and comments.",
     category: "Social Media",

@@ -1,19 +1,27 @@
-import React from "react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import React, { ReactNode } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
   Badge,
-  CircleUser,
+  History,
   Home,
-  LineChart,
-  Link,
   Menu,
-  Package,
   Package2,
+  ReceiptIndianRupee,
   Search,
+  Settings2,
   ShoppingCart,
-  Users,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import UserProfile from "./UserProfile";
+import ThemeBtn from "./ThemeBtn";
 import {
   Card,
   CardContent,
@@ -21,34 +29,36 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import UserProfile from "./UserProfile";
-import ThemeBtn from "./ThemeBtn";
+import Link from "next/link";
 
 interface NavItem {
   link: string;
   text: string;
-  total?: number; // optional property
+  icon: ReactNode;
+  total?: number;
 }
-
 function HeaderNav() {
   const Navtext: NavItem[] = [
     {
-      link: "/home",
+      link: "/",
       text: "Home",
+      icon: <Home className="h-4 w-4" />,
     },
     {
       link: "/history",
       text: "History",
+      icon: <History className="h-4 w-4" />,
       total: 7,
     },
     {
       link: "/billing",
       text: "Billing",
+      icon: <ReceiptIndianRupee className="h-4 w-4" />,
     },
     {
       link: "/settings",
       text: "Settings",
+      icon: <Settings2 className="h-4 w-4" />,
     },
   ];
 
@@ -62,35 +72,37 @@ function HeaderNav() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col">
-          <nav className="grid gap-2 text-lg font-medium">
-            <Link
-              href="#"
-              className="flex items-center gap-2 text-lg font-semibold"
-            >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
-            </Link>
+          <SheetHeader>
+            <SheetTitle>Menu</SheetTitle>
+          </SheetHeader>
+          <nav>
             {Navtext.map((text, Index) => (
               <Link
                 key={Index}
-                href={text.link}
-                className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                href={`/dashboard/${text.link}`}
+                className="flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
               >
-                <Home className="h-5 w-5" />
+                {text.icon}
                 {text.text}
               </Link>
             ))}
-            <Link
-              href="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              Orders
-              <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                6
-              </Badge>
-            </Link>
           </nav>
+          <div className="mt-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle>Upgrade to Pro</CardTitle>
+                <CardDescription>
+                  Unlock all features and get unlimited access to our support
+                  team.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button size="sm" className="w-full">
+                  Upgrade
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1">

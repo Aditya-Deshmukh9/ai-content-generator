@@ -9,7 +9,7 @@ export default function DashboardLayout() {
 
   return (
     <ScrollArea className="max-h-full w-full">
-      <div className="bgColor flex h-56 w-full flex-col items-center justify-center">
+      <div className="bgColor flex h-[25vh] w-full flex-col items-center justify-center">
         <h2 className="text-3xl font-semibold text-white">
           Browse All Templates
         </h2>

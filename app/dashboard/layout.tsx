@@ -13,7 +13,9 @@ export default function DashboardLayout({
       <SideNav />
       <div className="flex flex-col">
         <HeaderNav />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <div className="h-screen w-full">
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </div>
       </div>
     </div>
   );
