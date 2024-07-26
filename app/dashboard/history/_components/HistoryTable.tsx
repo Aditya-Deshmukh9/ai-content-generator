@@ -119,8 +119,8 @@ function HistoryTable() {
     return <Loading />;
   }
   return (
-    <main className="m-6 bg-white p-2 shadow-md">
-      <ScrollArea className="h-full">
+    <main className="m-6 h-screen bg-white p-2 shadow-md">
+      <ScrollArea className="max-h-screen w-full overflow-y-scroll">
         <Table>
           <TableCaption>A list of your recent datas.</TableCaption>
           <TableHeader>

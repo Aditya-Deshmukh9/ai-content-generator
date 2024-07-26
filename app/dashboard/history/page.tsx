@@ -3,7 +3,7 @@ import HistoryTable from "./_components/HistoryTable";
 
 function historyPage() {
   return (
-    <div className="h-screen w-full">
+    <div className="m-5 h-screen">
       <HistoryTable />
     </div>
   );
