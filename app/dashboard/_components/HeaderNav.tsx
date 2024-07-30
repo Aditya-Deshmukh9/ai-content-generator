@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -77,13 +78,11 @@ function HeaderNav() {
           </SheetHeader>
           <nav>
             {Navtext.map((text, Index) => (
-              <Link
-                key={Index}
-                href={`/dashboard/${text.link}`}
-                className="flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-              >
-                {text.icon}
-                {text.text}
+              <Link key={Index} href={`/dashboard/${text.link}`}>
+                <SheetClose className="flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground">
+                  {text.icon}
+                  {text.text}
+                </SheetClose>
               </Link>
             ))}
           </nav>

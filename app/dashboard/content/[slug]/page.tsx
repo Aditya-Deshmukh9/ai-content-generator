@@ -72,7 +72,7 @@ function TamplateDetailsPage({ params }: { params: { slug: string } }) {
   };
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-full w-full md:h-screen">
       <Link href={"/dashboard"}>
         <Button variant={"bgColor"} className="bg-textColor ml-5 mt-5">
           <ArrowLeft /> Back

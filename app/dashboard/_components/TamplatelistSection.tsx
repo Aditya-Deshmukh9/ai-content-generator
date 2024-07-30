@@ -16,9 +16,10 @@ function TamplatelistSection({ SearcInput }: any) {
         item.desc.toLowerCase().includes(lowerCaseInput),
     );
   }, [SearcInput]);
+
   return (
     <div className="max-h-[69vh]">
-      <div className="mb-10 grid w-full grid-cols-2 gap-2 p-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="mb-10 grid w-full grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-2 md:p-10 lg:grid-cols-2 lg:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         {filterTamplate.map((data, index) => (
           // @ts-ignore
           <TamplateCard key={index} {...data} />

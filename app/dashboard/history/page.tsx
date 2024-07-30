@@ -3,7 +3,7 @@ import HistoryTable from "./_components/HistoryTable";
 
 function historyPage() {
   return (
-    <div className="m-5 h-screen">
+    <div className="overflow-y-auto p-2 md:m-5 md:h-[45vw]">
       <HistoryTable />
     </div>
   );

@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import UsageTrack from "./UsageTrack";
 
 interface NavItem {
   link: string;
@@ -45,7 +46,7 @@ function SideNav() {
   ];
 
   return (
-    <div className="hidden overflow-y-hidden border-r bg-muted/40 bg-white px-4 dark:bg-secondary md:block">
+    <div className="hidden border-r bg-muted/40 bg-white px-4 dark:bg-secondary md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -83,6 +84,7 @@ function SideNav() {
             ))}
           </nav>
         </div>
+        <UsageTrack />
       </div>
     </div>
   );
