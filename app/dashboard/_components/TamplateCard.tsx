@@ -17,7 +17,7 @@ export default function TamplateCard(data: TamplateTypes) {
           className="h-20 w-20"
         />
         <div className="flex flex-col items-start justify-between">
-          <CardTitle className="from-[#d41872] to-[#ff0066] bg-clip-text text-xl hover:bg-gradient-to-r hover:text-transparent">
+          <CardTitle className="line-clamp-1 from-[#d41872] to-[#ff0066] bg-clip-text text-xl hover:line-clamp-none hover:bg-gradient-to-r hover:text-transparent">
             {data.name}
           </CardTitle>
           <CardDescription className="line-clamp-3 h-20 from-[#d41872] to-[#ff0066] bg-clip-text hover:bg-gradient-to-r hover:text-transparent md:h-20">

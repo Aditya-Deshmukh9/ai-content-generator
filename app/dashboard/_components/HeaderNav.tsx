@@ -1,36 +1,28 @@
+"use client";
 import React, { ReactNode } from "react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
-  Badge,
   History,
   Home,
   Menu,
-  Package2,
   ReceiptIndianRupee,
   Search,
   Settings2,
-  ShoppingCart,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import UserProfile from "./UserProfile";
 import ThemeBtn from "./ThemeBtn";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import Link from "next/link";
+import UsageTrack from "./UsageTrack";
+import { usePathname } from "next/navigation";
 
 interface NavItem {
   link: string;
@@ -39,25 +31,26 @@ interface NavItem {
   total?: number;
 }
 function HeaderNav() {
+  const pathname = usePathname();
   const Navtext: NavItem[] = [
     {
-      link: "/",
+      link: "/dashboard",
       text: "Home",
       icon: <Home className="h-4 w-4" />,
     },
     {
-      link: "/history",
+      link: "/dashboard/history",
       text: "History",
       icon: <History className="h-4 w-4" />,
       total: 7,
     },
     {
-      link: "/billing",
+      link: "/dashboard/billing",
       text: "Billing",
       icon: <ReceiptIndianRupee className="h-4 w-4" />,
     },
     {
-      link: "/settings",
+      link: "/dashboard/settings",
       text: "Settings",
       icon: <Settings2 className="h-4 w-4" />,
     },
@@ -78,30 +71,22 @@ function HeaderNav() {
           </SheetHeader>
           <nav>
             {Navtext.map((text, Index) => (
-              <Link key={Index} href={`/dashboard/${text.link}`}>
-                <SheetClose className="flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground">
+              <Link key={Index} href={text.link}>
+                <SheetClose
+                  // className="flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                  className={`${
+                    pathname === `${text.link}`
+                      ? "activeNavText"
+                      : "flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
                   {text.icon}
                   {text.text}
                 </SheetClose>
               </Link>
             ))}
           </nav>
-          <div className="mt-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>
-                  Unlock all features and get unlimited access to our support
-                  team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" className="w-full">
-                  Upgrade
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          <UsageTrack />
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1">

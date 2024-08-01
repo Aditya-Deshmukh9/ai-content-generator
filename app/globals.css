@@ -89,4 +89,10 @@
   .color {
     @apply bg-gradient-to-r from-[#d41872] to-[#ff0066];
   }
+  .activeNavText {
+    @apply color flex w-full items-center justify-start gap-3 rounded-full px-4 py-2 text-center text-[1rem] text-muted-foreground text-white transition-all hover:text-primary;
+  }
+  .navText {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-black text-muted-foreground transition-all hover:text-primary;
+  }
 }

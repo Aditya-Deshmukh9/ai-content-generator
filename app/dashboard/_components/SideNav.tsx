@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import {
@@ -8,10 +9,10 @@ import {
   ReceiptIndianRupee,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import UsageTrack from "./UsageTrack";
+import { usePathname } from "next/navigation";
 
 interface NavItem {
   link: string;
@@ -21,27 +22,30 @@ interface NavItem {
 }
 
 function SideNav() {
+  const pathname = usePathname();
+  console.log(pathname === "/dashboard/history" ? true : false);
+
   const Navtext: NavItem[] = [
     {
-      link: "/",
+      link: "/dashboard",
       text: "Home",
-      icon: <Home className="h-4 w-4" />,
+      icon: <Home className="h-5 w-5" />,
     },
     {
-      link: "/history",
+      link: "/dashboard/history",
       text: "History",
-      icon: <History className="h-4 w-4" />,
+      icon: <History className="h-5 w-5" />,
       total: 7,
     },
     {
-      link: "/billing",
+      link: "/dashboard/billing",
       text: "Billing",
-      icon: <ReceiptIndianRupee className="h-4 w-4" />,
+      icon: <ReceiptIndianRupee className="h-5 w-5" />,
     },
     {
-      link: "/settings",
+      link: "/dashboard/settings",
       text: "Settings",
-      icon: <Settings2 className="h-4 w-4" />,
+      icon: <Settings2 className="h-5 w-5" />,
     },
   ];
 
@@ -66,24 +70,22 @@ function SideNav() {
         </div>
         {/* sidenav links */}
         <div className="flex-1">
-          <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {Navtext.map((text, Index) => (
+          <nav className="grid items-start gap-y-1 px-2 text-sm font-medium lg:px-4">
+            {Navtext.map((text, index) => (
               <Link
-                key={Index}
-                href={`/dashboard/${text.link}`}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                key={index}
+                href={`${text.link}`}
+                className={`${
+                  pathname === `${text.link}` ? "activeNavText" : "navText"
+                }`}
               >
                 {text.icon}
-                {text.text}
-                {text.total && (
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    {text.total}
-                  </Badge>
-                )}
+                <h2>{text.text}</h2>
               </Link>
             ))}
           </nav>
         </div>
+
         <UsageTrack />
       </div>
     </div>
