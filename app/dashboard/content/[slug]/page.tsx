@@ -1,74 +1,41 @@
 "use client";
 import Tamplates from "@/app/(data)/Tamplates";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import FormSection from "./_components/FormSection";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import OutputSection from "./_components/OutputSection";
-import { chatSession } from "@/utils/AiModal";
-import { db } from "@/utils/db";
-import moment from "moment";
 import { useUser } from "@clerk/nextjs";
-import { AIResponse } from "@/utils/schema";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { RootState } from "@/app/(redux)/store";
+import { generateAiContent } from "@/app/(redux)/aiContentSlice";
 
 function TamplateDetailsPage({ params }: { params: { slug: string } }) {
-  const [aiOutput, setaiOutput] = useState<string>("");
-  const [loading, setloading] = useState(false);
+  const dispatch = useAppDispatch();
   const { user } = useUser();
+  const { aiOutput, loading } = useAppSelector(
+    (state: RootState) => state.aiContent,
+  );
+  const { totalHistorytext } = useAppSelector((state: RootState) => state.user);
 
   const selectedTamplates = useMemo(
     () => Tamplates.find((item) => item.slug === params.slug),
     [params.slug],
   );
 
-  const GenerateAiContent = async (formData: any) => {
-    setloading(true);
+  const GenerateAiContent = (formData: any) => {
     const selectedPrompt = selectedTamplates?.aiPrompt;
-    const finalPrompt = JSON.stringify(formData) + " ," + selectedPrompt;
+    const userEmail: any = user?.primaryEmailAddress?.emailAddress;
 
-    try {
-      const result = await chatSession.sendMessage(finalPrompt);
-
-      const aiResponse = result?.response?.text();
-      setaiOutput(aiResponse);
-      console.log(aiResponse);
-      const userEmail: any = user?.primaryEmailAddress?.emailAddress;
-
-      if (aiResponse !== "" || !userEmail) {
-        await saveInDb(
-          JSON.stringify(formData),
-          aiResponse,
-          params?.slug,
-          userEmail,
-        );
-      }
-    } catch (error) {
-      console.error("Error generating AI content or saving to DB:", error);
-    } finally {
-      setloading(false);
-    }
-  };
-
-  const saveInDb = async (
-    formData: any,
-    aiResponse: any,
-    slug: string,
-    userEmail: string,
-  ) => {
-    try {
-      const result = await db.insert(AIResponse).values({
-        formData: formData,
-        aiResponse: aiResponse,
-        tamplateSlug: slug,
-        createdBy: userEmail,
-        createdAt: moment().format("YYYY-MM-DD"), // Use a standard date format
-      });
-      console.log(result);
-    } catch (error) {
-      console.error("Failed to save data to DB:", error);
-      throw new Error("Database insert failed");
-    }
+    dispatch(
+      generateAiContent({
+        formData,
+        selectedPrompt,
+        slug: params.slug,
+        userEmail,
+      }),
+    );
   };
 
   return (
@@ -87,6 +54,7 @@ function TamplateDetailsPage({ params }: { params: { slug: string } }) {
         />
 
         <OutputSection aiOutput={aiOutput} />
+        <div>Total History Text: {totalHistorytext}</div>
       </div>
     </div>
   );

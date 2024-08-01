@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { eq } from "drizzle-orm";
 import { db } from "@/utils/db";
 import { AIResponse } from "@/utils/schema";
@@ -14,12 +14,18 @@ interface HISTORY {
 
 interface DataState {
   data: HISTORY[];
+  totalHistorytext: number;
   loading: boolean;
   error: string | null;
 }
 
+function calculateTotal(data: HISTORY[]): number {
+  return data.reduce((acc, e) => acc + (e.aiResponse?.length || 0), 0);
+}
+
 const initialState: DataState = {
   data: [],
+  totalHistorytext: 0,
   loading: false,
   error: null,
 };
@@ -32,20 +38,25 @@ export const historyData = createAsyncThunk(
         .select()
         .from(AIResponse)
         .where(eq(AIResponse.createdBy, userEmail));
-
       return results;
     } catch (error) {
       console.log(error);
-
       return rejectWithValue(error);
     }
   },
 );
 
-const dataSlice = createSlice({
+const userSlice = createSlice({
   name: "data",
   initialState,
-  reducers: {},
+  reducers: {
+    setTotalHistoryText(state, action: PayloadAction<number>) {
+      state.totalHistorytext = action.payload;
+    },
+    calculateTotalHistory(state, action: PayloadAction<HISTORY[]>) {
+      state.totalHistorytext = calculateTotal(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(historyData.pending, (state) => {
@@ -55,6 +66,7 @@ const dataSlice = createSlice({
       .addCase(historyData.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
+        state.totalHistorytext = calculateTotal(action.payload);
       })
       .addCase(historyData.rejected, (state, action) => {
         state.loading = false;
@@ -63,4 +75,5 @@ const dataSlice = createSlice({
   },
 });
 
-export default dataSlice.reducer;
+export const { setTotalHistoryText, calculateTotalHistory } = userSlice.actions;
+export default userSlice.reducer;

@@ -14,12 +14,14 @@ import Loading from "../../loading";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { RootState } from "@/app/(redux)/store";
-import { historyData } from "@/app/(redux)/userSlice";
+import { calculateTotalHistory, historyData } from "@/app/(redux)/userSlice";
 
 function HistoryTable() {
   const { user } = useUser();
   const dispatch = useAppDispatch();
-  const { data, loading } = useAppSelector((state: RootState) => state?.user);
+  const { data, loading, totalHistorytext } = useAppSelector(
+    (state: RootState) => state?.user,
+  );
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
@@ -29,11 +31,15 @@ function HistoryTable() {
     }
   }, [dispatch, user]);
 
+  useEffect(() => {
+    dispatch(calculateTotalHistory(data));
+  }, [data, dispatch]);
+
   if (loading) {
     return <Loading />;
   }
   return (
-    <main className="h-screen w-full bg-white shadow-md md:h-fit md:p-2">
+    <main className="h-screen w-full shadow-md md:min-h-0 md:p-2">
       <Table>
         <TableHeader>
           <TableRow>
@@ -68,7 +74,7 @@ function HistoryTable() {
         <TableFooter className="bg-white">
           <TableRow>
             <TableCell colSpan={3}>Total Words Counts</TableCell>
-            <TableCell className="text-right">525</TableCell>
+            <TableCell className="text-right">{totalHistorytext}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
