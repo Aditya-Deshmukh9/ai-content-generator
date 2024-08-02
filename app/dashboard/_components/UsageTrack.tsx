@@ -1,6 +1,9 @@
 "use client";
 import { RootState } from "@/app/(redux)/store";
-import { historyData } from "@/app/(redux)/userSlice";
+import {
+  fetchUserSubscriptionData,
+  fetchHistoryData,
+} from "@/app/(redux)/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
@@ -9,13 +12,17 @@ import React, { useEffect } from "react";
 const UsageTrack: React.FC = () => {
   const dispatch = useAppDispatch();
   const { user } = useUser();
-  const { data, loading, error } = useAppSelector(
+  const { data, loading, error, userSubscriptionDetails } = useAppSelector(
     (state: RootState) => state?.user,
   );
+  console.log(userSubscriptionDetails);
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
-      dispatch(historyData(user.primaryEmailAddress.emailAddress));
+      dispatch(
+        fetchUserSubscriptionData(user?.primaryEmailAddress?.emailAddress),
+      );
+      dispatch(fetchHistoryData(user?.primaryEmailAddress?.emailAddress));
     } else {
       console.error("User email is not available");
     }
@@ -29,7 +36,10 @@ const UsageTrack: React.FC = () => {
   };
 
   const currentCredit = getTotalUsage();
-  const maxCredit = 10000;
+  const maxCredit =
+    userSubscriptionDetails && userSubscriptionDetails[0]?.active
+      ? 1000000
+      : 10000;
   const creditPercentage = (currentCredit / maxCredit) * 100;
 
   if (error) {
@@ -55,14 +65,29 @@ const UsageTrack: React.FC = () => {
             >
               {loading ? "..." : currentCredit}
             </span>
-            /10,000 Credit Used
+            /
+            {userSubscriptionDetails && userSubscriptionDetails[0]?.active
+              ? "10,00,000"
+              : "10,000"}{" "}
+            Credit Used
           </div>
         </div>
       </div>
       <div className="mt-2 w-full p-1">
-        <Button size="sm" variant="default" className="w-full">
-          Upgrade
-        </Button>
+        {userSubscriptionDetails && userSubscriptionDetails[0]?.active ? (
+          <Button
+            disabled={true}
+            size="sm"
+            variant="default"
+            className="w-full"
+          >
+            Already Pro
+          </Button>
+        ) : (
+          <Button size="sm" variant="default" className="w-full">
+            Upgrade
+          </Button>
+        )}
       </div>
     </div>
   );

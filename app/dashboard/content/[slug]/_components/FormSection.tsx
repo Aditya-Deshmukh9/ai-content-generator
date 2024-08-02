@@ -29,7 +29,7 @@ function FormSection({ selectedTamplates, userFormInput, loading }: PROPS) {
   };
 
   return (
-    <div className="h-fit w-fit p-6">
+    <div className="h-fit w-fit bg-white p-6 dark:bg-gray-500">
       <Image src={selectedTamplates?.icon} alt="image" height={70} width={70} />
       <h2 className="headerText">{selectedTamplates?.name}</h2>
       <p className="text-black">{selectedTamplates?.desc}</p>

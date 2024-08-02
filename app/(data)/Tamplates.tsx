@@ -216,23 +216,7 @@ export default [
       },
     ],
   },
-  {
-    name: "Business Name Generator",
-    desc: "Have to come up with a business name? Our free AI-powered business name generator can help you find your perfect business name in seconds!",
-    category: "Branding",
-    icon: "https://cdn-icons-png.flaticon.com/128/9533/9533813.png",
-    aiPrompt:
-      "Generate a unique business name based on the following business details:",
-    slug: "generate-business-name",
-    form: [
-      {
-        label: "Enter business details",
-        field: "textarea",
-        name: "business_details",
-        required: true,
-      },
-    ],
-  },
+
   {
     name: "Commit Message Generator",
     desc: "Generate commit messages using AI-powered conventional commit format generator.",

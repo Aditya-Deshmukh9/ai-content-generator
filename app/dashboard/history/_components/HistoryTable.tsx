@@ -14,18 +14,21 @@ import Loading from "../../loading";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { RootState } from "@/app/(redux)/store";
-import { calculateTotalHistory, historyData } from "@/app/(redux)/userSlice";
+import {
+  calculateTotalHistory,
+  fetchHistoryData,
+} from "@/app/(redux)/userSlice";
 
 function HistoryTable() {
   const { user } = useUser();
   const dispatch = useAppDispatch();
-  const { data, loading, totalHistorytext } = useAppSelector(
+  const { data, loading, totalHistoryText } = useAppSelector(
     (state: RootState) => state?.user,
   );
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
-      dispatch(historyData(user.primaryEmailAddress.emailAddress));
+      dispatch(fetchHistoryData(user.primaryEmailAddress.emailAddress));
     } else {
       console.error("User email is not available");
     }
@@ -74,7 +77,7 @@ function HistoryTable() {
         <TableFooter className="bg-white">
           <TableRow>
             <TableCell colSpan={3}>Total Words Counts</TableCell>
-            <TableCell className="text-right">{totalHistorytext}</TableCell>
+            <TableCell className="text-right">{totalHistoryText}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>

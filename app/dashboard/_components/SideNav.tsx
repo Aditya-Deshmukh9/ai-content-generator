@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode } from "react";
+import React from "react";
 import Link from "next/link";
 import {
   Bell,
@@ -9,43 +9,34 @@ import {
   ReceiptIndianRupee,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import UsageTrack from "./UsageTrack";
 import { usePathname } from "next/navigation";
 
-interface NavItem {
-  link: string;
-  text: string;
-  icon: ReactNode;
-  total?: number;
-}
-
 function SideNav() {
   const pathname = usePathname();
-  console.log(pathname === "/dashboard/history" ? true : false);
 
-  const Navtext: NavItem[] = [
+  const Navtext = [
     {
       link: "/dashboard",
       text: "Home",
-      icon: <Home className="h-5 w-5" />,
+      icon: Home,
     },
     {
       link: "/dashboard/history",
       text: "History",
-      icon: <History className="h-5 w-5" />,
+      icon: History,
       total: 7,
     },
     {
       link: "/dashboard/billing",
       text: "Billing",
-      icon: <ReceiptIndianRupee className="h-5 w-5" />,
+      icon: ReceiptIndianRupee,
     },
     {
       link: "/dashboard/settings",
       text: "Settings",
-      icon: <Settings2 className="h-5 w-5" />,
+      icon: Settings2,
     },
   ];
 
@@ -59,14 +50,10 @@ function SideNav() {
               alt="logo"
               height={100}
               width={100}
-              className="h-8 w-8"
+              className="h-10 w-10"
             />
             <span>Ai Content Bhai</span>
           </Link>
-          <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-            <Bell className="h-4 w-4" />
-            <span className="sr-only">Toggle notifications</span>
-          </Button>
         </div>
         {/* sidenav links */}
         <div className="flex-1">
@@ -76,10 +63,10 @@ function SideNav() {
                 key={index}
                 href={`${text.link}`}
                 className={`${
-                  pathname === `${text.link}` ? "activeNavText" : "navText"
+                  pathname === text.link ? "activeNavText" : "navText"
                 }`}
               >
-                {text.icon}
+                <text.icon className="h-5 w-5" />
                 <h2>{text.text}</h2>
               </Link>
             ))}

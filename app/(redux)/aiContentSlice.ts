@@ -3,7 +3,7 @@ import { chatSession } from "@/utils/AiModal";
 import { db } from "@/utils/db";
 import { AIResponse } from "@/utils/schema";
 import moment from "moment";
-import { historyData, setTotalHistoryText } from "./userSlice";
+import { fetchHistoryData, setTotalHistoryText } from "./userSlice";
 
 interface AiContentState {
   aiOutput: string;
@@ -37,7 +37,9 @@ export const generateAiContent = createAsyncThunk(
         });
 
         // Fetch updated history data
-        const updatedHistory = await dispatch(historyData(userEmail)).unwrap();
+        const updatedHistory = await dispatch(
+          fetchHistoryData(userEmail),
+        ).unwrap();
         // Calculate the new total history text and dispatch the action to update it
         const totalHistoryText = updatedHistory.reduce(
           (acc, e) => acc + (e.aiResponse?.length || 0),

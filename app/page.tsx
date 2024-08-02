@@ -8,18 +8,16 @@ function page() {
     <div className="flex flex-wrap">
       <div className="mb-10 w-full sm:w-8/12">
         <div className="container mx-auto h-full sm:p-10">
-          <nav className="flex items-center justify-between px-4">
-            <div className="text-4xl font-bold">
-              Plant<span className="text-green-700">.</span>
-            </div>
-            <div>
-              <img
-                src="https://image.flaticon.com/icons/svg/497/497348.svg"
-                alt=""
-                className="w-8"
-              />
-            </div>
-          </nav>
+          <Link href="/" className="flex items-center gap-2 font-semibold">
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              height={100}
+              width={100}
+              className="h-8 w-8"
+            />
+            <span>Ai Content Bhai</span>
+          </Link>
           <header className="container mt-10 h-full items-center px-4 lg:mt-0 lg:flex">
             <div className="w-full">
               <h1 className="text-4xl font-bold lg:text-6xl">

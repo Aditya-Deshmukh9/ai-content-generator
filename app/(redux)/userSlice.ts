@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { eq } from "drizzle-orm";
 import { db } from "@/utils/db";
-import { AIResponse } from "@/utils/schema";
+import { AIResponse, UserSubscription } from "@/utils/schema";
 
 interface HISTORY {
   id: number;
@@ -12,9 +12,19 @@ interface HISTORY {
   createdAt: string | null;
 }
 
+interface USER_SUBSCRIPTION {
+  id: number;
+  email: string;
+  username: string | null;
+  active: boolean;
+  paymentId: string | null;
+  joinDate: string | null;
+}
+
 interface DataState {
   data: HISTORY[];
-  totalHistorytext: number;
+  totalHistoryText: number;
+  userSubscriptionDetails: USER_SUBSCRIPTION[] | null;
   loading: boolean;
   error: string | null;
 }
@@ -25,13 +35,14 @@ function calculateTotal(data: HISTORY[]): number {
 
 const initialState: DataState = {
   data: [],
-  totalHistorytext: 0,
+  totalHistoryText: 0,
   loading: false,
   error: null,
+  userSubscriptionDetails: null,
 };
 
-export const historyData = createAsyncThunk(
-  "data/historyData",
+export const fetchHistoryData = createAsyncThunk(
+  "data/fetchHistoryData",
   async (userEmail: string, { rejectWithValue }) => {
     try {
       const results: HISTORY[] = await db
@@ -46,29 +57,61 @@ export const historyData = createAsyncThunk(
   },
 );
 
+export const fetchUserSubscriptionData = createAsyncThunk(
+  "data/fetchUserSubscriptionData",
+  async (userEmail: string, { rejectWithValue }) => {
+    try {
+      // @ts-ignore
+      const results: USER_SUBSCRIPTION[] = await db
+        .select()
+        .from(UserSubscription)
+        .where(eq(UserSubscription?.email, userEmail));
+
+      console.log(results);
+      return results;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  },
+);
+
 const userSlice = createSlice({
   name: "data",
   initialState,
   reducers: {
     setTotalHistoryText(state, action: PayloadAction<number>) {
-      state.totalHistorytext = action.payload;
+      state.totalHistoryText = action.payload;
     },
     calculateTotalHistory(state, action: PayloadAction<HISTORY[]>) {
-      state.totalHistorytext = calculateTotal(action.payload);
+      state.totalHistoryText = calculateTotal(action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(historyData.pending, (state) => {
+      .addCase(fetchHistoryData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(historyData.fulfilled, (state, action) => {
+      .addCase(fetchHistoryData.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
-        state.totalHistorytext = calculateTotal(action.payload);
+        state.totalHistoryText = calculateTotal(action.payload);
       })
-      .addCase(historyData.rejected, (state, action) => {
+      .addCase(fetchHistoryData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchUserSubscriptionData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserSubscriptionData.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.userSubscriptionDetails = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchUserSubscriptionData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
