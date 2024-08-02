@@ -17,7 +17,7 @@ function TamplateDetailsPage({ params }: { params: { slug: string } }) {
   const { aiOutput, loading } = useAppSelector(
     (state: RootState) => state.aiContent,
   );
-  const { totalHistorytext } = useAppSelector((state: RootState) => state.user);
+  const { totalHistoryText } = useAppSelector((state: RootState) => state.user);
 
   const selectedTamplates = useMemo(
     () => Tamplates.find((item) => item.slug === params.slug),
@@ -54,7 +54,7 @@ function TamplateDetailsPage({ params }: { params: { slug: string } }) {
         />
 
         <OutputSection aiOutput={aiOutput} />
-        <div>Total History Text: {totalHistorytext}</div>
+        <div>Total History Text: {totalHistoryText}</div>
       </div>
     </div>
   );
