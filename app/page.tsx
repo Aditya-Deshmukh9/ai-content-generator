@@ -16,7 +16,7 @@ function page() {
               width={100}
               className="h-8 w-8"
             />
-            <span>Ai Content Bhai</span>
+            <span>Ai Generator</span>
           </Link>
           <header className="container mt-10 h-full items-center px-4 lg:mt-0 lg:flex">
             <div className="w-full">

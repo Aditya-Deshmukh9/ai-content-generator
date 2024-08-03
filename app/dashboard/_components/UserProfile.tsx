@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CircleUser } from "lucide-react";
 import { useClerk } from "@clerk/nextjs";
+import Link from "next/link";
 
 function UserProfile() {
   const { signOut } = useClerk();
@@ -26,8 +27,10 @@ function UserProfile() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={"/dashboard/settings"}>Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>Admin</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Button

@@ -13,7 +13,7 @@ export default function DashboardLayout({
       <SideNav />
       <div className="flex flex-col">
         <HeaderNav />
-        <div className="h-screen w-full bg-slate-200 dark:bg-slate-600">
+        <div className="bg-slate-200 dark:bg-slate-600">
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </div>
       </div>

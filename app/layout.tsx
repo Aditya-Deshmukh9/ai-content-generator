@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import Loading from "./dashboard/loading";
 import StoreProvider from "./StoreProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+        <body className={outfit.className}>
           <StoreProvider>
             <ThemeProvider attribute="class" defaultTheme="system">
               <Suspense fallback={<Loading />}>{children}</Suspense>

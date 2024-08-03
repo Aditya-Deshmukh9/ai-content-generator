@@ -24,10 +24,10 @@ export const pricePlans: PricePlan[] = [
       { text: "Access Premium templates", disabled: true },
     ],
     popular: false,
-    buttonText: "Get Basic",
+    buttonText: "Free",
   },
   {
-    name: "Professional",
+    name: "Pro",
     price: 100,
     features: [
       "10,00,000 Words/Month",

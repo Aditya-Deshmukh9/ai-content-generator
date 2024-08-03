@@ -172,7 +172,7 @@ export default [
     ],
   },
   {
-    name: "Code Writer",
+    name: "Code Generator",
     desc: "Generate programming code in any language with our AI tool.",
     category: "Coding",
     icon: "https://cdn-icons-png.flaticon.com/128/2178/2178616.png",

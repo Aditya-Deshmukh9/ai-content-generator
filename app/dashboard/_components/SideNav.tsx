@@ -52,7 +52,7 @@ function SideNav() {
               width={100}
               className="h-10 w-10"
             />
-            <span>Ai Content Bhai</span>
+            <span>Ai Generator</span>
           </Link>
         </div>
         {/* sidenav links */}

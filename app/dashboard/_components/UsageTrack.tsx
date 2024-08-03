@@ -57,7 +57,7 @@ const UsageTrack: React.FC = () => {
               style={{ width: `${creditPercentage}%`, maxWidth: "100%" }}
             ></div>
           </div>
-          <div className="mt-2 flex gap-1 font-light text-white">
+          <div className="mt-2 line-clamp-1 flex gap-1 font-light text-white">
             <span
               className={
                 currentCredit < 10000 ? "text-white" : "font-bold text-black"
@@ -81,7 +81,7 @@ const UsageTrack: React.FC = () => {
             variant="default"
             className="w-full"
           >
-            Already Pro
+            Pro User
           </Button>
         ) : (
           <Button size="sm" variant="default" className="w-full">

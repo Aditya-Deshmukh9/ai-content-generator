@@ -9,12 +9,22 @@ import { db } from "@/utils/db";
 import { UserSubscription } from "@/utils/schema";
 import moment from "moment";
 import { useUser } from "@clerk/nextjs";
+import { toast } from "@/components/ui/use-toast";
+import { RootState } from "@/app/(redux)/store";
+import { useAppSelector } from "@/app/hooks";
 
 const PricePlans: React.FC = () => {
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
+  const { userSubscriptionDetails } = useAppSelector(
+    (state: RootState) => state?.user,
+  );
 
   const createSubscriptionOrder = async () => {
+    if (userSubscriptionDetails && userSubscriptionDetails[0]?.active) {
+      return toast({ description: "Your Already have Pro Account Access" });
+    }
+
     setLoading(true);
     try {
       const response = await axios.post("/api/create-subscription", {});
@@ -56,6 +66,7 @@ const PricePlans: React.FC = () => {
       joinDate: moment().format("DD/MM/yyyy"),
     });
     console.log(result);
+    toast({ description: "Your are now Pro User" });
     if (result) {
       window.location.reload();
     }
@@ -123,8 +134,14 @@ const PricePlans: React.FC = () => {
                       disabled={!plan.popular}
                       variant={"bgColor"}
                     >
-                      {loading && <Loader2Icon className="animate-spin" />}
-                      Get Started
+                      {plan.popular && loading && (
+                        <Loader2Icon className="animate-spin" />
+                      )}
+                      {plan.popular &&
+                      userSubscriptionDetails &&
+                      userSubscriptionDetails[0]?.active
+                        ? "Pro User"
+                        : plan.buttonText}
                     </Button>
                   </div>
                 </div>
