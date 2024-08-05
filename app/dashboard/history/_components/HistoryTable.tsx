@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -26,58 +26,66 @@ function HistoryTable() {
     (state: RootState) => state?.user,
   );
 
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
       dispatch(fetchHistoryData(user.primaryEmailAddress.emailAddress));
     } else {
       console.error("User email is not available");
     }
+    setIsMounted(true);
   }, [dispatch, user]);
 
   useEffect(() => {
-    dispatch(calculateTotalHistory(data));
-  }, [data, dispatch]);
+    if (isMounted) {
+      dispatch(calculateTotalHistory(data));
+    }
+  }, [data, dispatch, isMounted]);
 
-  if (loading) {
+  if (loading || !isMounted) {
     return <Loading />;
   }
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="font-bold text-black">Tamplate</TableHead>
-          <TableHead className="w-2/6 font-bold text-black">
-            AI Response
-          </TableHead>
-          <TableHead className="font-bold text-black">Date</TableHead>
-          <TableHead className="font-bold text-black">Words</TableHead>
-          <TableHead className="font-bold text-black">Copy</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((data) => (
-          <TableRow key={data.id}>
-            <TableCell className="font-medium">{data?.tamplateSlug}</TableCell>
-            <TableCell className="h-32 py-2">
-              <h3 className="line-clamp-4 overflow-hidden">
-                {data?.aiResponse}
-              </h3>
-            </TableCell>
-            <TableCell>{data?.createdAt}</TableCell>
-            <TableCell>{data?.aiResponse?.length}</TableCell>
-            <TableCell>
-              <Button variant={"bgColor"}>Copy</Button>
-            </TableCell>
+    <main className="w-full h-full bg-white rounded-md shadow-md md:p-2">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="font-bold text-black">Template</TableHead>
+            <TableHead className="w-2/6 font-bold text-black">
+              AI Response
+            </TableHead>
+            <TableHead className="font-bold text-black">Date</TableHead>
+            <TableHead className="font-bold text-black">Words</TableHead>
+            <TableHead className="font-bold text-black">Copy</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter className="bg-white">
-        <TableRow>
-          <TableCell colSpan={3}>Total Words Counts</TableCell>
-          <TableCell className="text-right">{totalHistoryText}</TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {data.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell className="font-medium">{item?.tamplateSlug}</TableCell>
+              <TableCell className="h-32 py-2">
+                <h3 className="line-clamp-4 overflow-hidden">
+                  {item?.aiResponse}
+                </h3>
+              </TableCell>
+              <TableCell>{item?.createdAt}</TableCell>
+              <TableCell>{item?.aiResponse?.length}</TableCell>
+              <TableCell>
+                <Button variant={"bgColor"}>Copy</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter className="bg-white">
+          <TableRow>
+            <TableCell colSpan={3}>Total Words Counts</TableCell>
+            <TableCell className="text-right">{totalHistoryText}</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </main >
   );
 }
 
