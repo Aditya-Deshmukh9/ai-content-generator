@@ -32,6 +32,11 @@ function SideNav() {
       text: "Settings",
       icon: Settings2,
     },
+    {
+      link: "/dashboard/interview",
+      text: "Interview",
+      icon: Settings2,
+    },
   ];
 
   return (

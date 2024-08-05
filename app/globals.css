@@ -106,7 +106,7 @@
     @apply bg-gradient-to-r from-[#d41872] to-[#ff0066] bg-clip-text text-3xl font-bold text-transparent;
   }
   .textColor {
-    @apply bg-gradient-to-r from-[#d41872] to-[#ff0066] bg-clip-text text-transparent;
+    @apply text-[#ff0066];
   }
   .color {
     @apply bg-gradient-to-r from-[#d41872] to-[#ff0066];
