@@ -38,18 +38,18 @@ export default [
     ],
   },
   {
-    name: "Email Rewrite",
+    name: "Perfect Email Write",
     desc: "Enhance your email communication with our AI-powered tool that corrects grammar and improves professionalism.",
     category: "Writing",
     icon: "https://cdn-icons-png.flaticon.com/128/6125/6125875.png",
     aiPrompt:
-      "Rewrite the following email to correct grammar errors and enhance professionalism:",
+      "Write a professional email on given topic. with no gramtical mistake, and Humanatic touch - this email topic",
     slug: "email-rewrite",
     form: [
       {
-        label: "Enter your email content",
+        label: "Enter your email Topic",
         field: "textarea",
-        name: "emailContent",
+        name: "emailTopic",
         required: true,
       },
     ],

@@ -5,7 +5,7 @@ import React from "react";
 
 function page() {
   return (
-    <div className="flex flex-wrap">
+    <div className="flex h-screen flex-wrap">
       <div className="mb-10 w-full sm:w-8/12">
         <div className="container mx-auto h-full sm:p-10">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -50,7 +50,7 @@ function page() {
         loading="lazy"
         height={1000}
         width={1000}
-        className="h-48 w-full object-cover sm:h-screen sm:w-4/12"
+        className="h-1/2 w-full object-cover sm:w-4/12 md:h-48 lg:h-screen"
       />
     </div>
   );

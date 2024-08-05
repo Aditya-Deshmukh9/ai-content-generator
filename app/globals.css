@@ -75,7 +75,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground md:overflow-y-hidden;
+    @apply min-h-screen overflow-x-hidden bg-background text-foreground md:overflow-y-hidden;
   }
   .SectionCss {
     @apply flex h-screen items-center justify-center;
@@ -93,6 +93,9 @@
     @apply color flex w-full items-center justify-start gap-3 rounded-full px-4 py-2 text-center text-[1rem] text-muted-foreground text-white transition-all hover:text-primary;
   }
   .navText {
-    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-black text-muted-foreground transition-all hover:text-primary;
+    @apply flex items-center gap-3 rounded-lg px-4 py-2 text-black text-muted-foreground transition-all hover:text-primary;
+  }
+  .bgColor {
+    @apply rounded-md bg-gradient-to-r from-[#d41872] to-[#ff0066] px-3 py-2 text-primary-foreground shadow hover:bg-[#d41872];
   }
 }

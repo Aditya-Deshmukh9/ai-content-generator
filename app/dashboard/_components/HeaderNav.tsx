@@ -14,10 +14,8 @@ import {
   Home,
   Menu,
   ReceiptIndianRupee,
-  Search,
   Settings2,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import UserProfile from "./UserProfile";
 import ThemeBtn from "./ThemeBtn";
 import Link from "next/link";
@@ -89,7 +87,11 @@ function HeaderNav() {
           <UsageTrack />
         </SheetContent>
       </Sheet>
-      <div className="w-full flex-1"></div>
+      <div className="w-full flex-1">
+        <Link href={"/"} className="bgColor">
+          Add Custom Tamplate
+        </Link>
+      </div>
       <ThemeBtn />
       <UserProfile />
     </header>

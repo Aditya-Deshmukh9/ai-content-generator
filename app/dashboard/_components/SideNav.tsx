@@ -1,13 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import {
-  Bell,
-  Home,
-  History,
-  Settings2,
-  ReceiptIndianRupee,
-} from "lucide-react";
+import { Home, History, Settings2, ReceiptIndianRupee } from "lucide-react";
 
 import Image from "next/image";
 import UsageTrack from "./UsageTrack";
