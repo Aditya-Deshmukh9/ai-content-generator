@@ -88,9 +88,9 @@ function HeaderNav() {
         </SheetContent>
       </Sheet>
       <div className="w-full flex-1">
-        <Link href={"/"} className="bgColor">
+        {/* <Link href={"/"} className="bgColor">
           Add Custom Tamplate
-        </Link>
+        </Link> */}
       </div>
       <ThemeBtn />
       <UserProfile />
