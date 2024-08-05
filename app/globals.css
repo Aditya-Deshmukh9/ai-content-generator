@@ -10,6 +10,28 @@
     #ff0066 100%
   );
 }
+@layer base {
+  /* Remove scrollbar */
+  .remove-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    border-radius: 0px;
+  }
+
+  .remove-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .remove-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0px;
+  }
+
+  .remove-scrollbar::-webkit-scrollbar-thumb:hover {
+    /* background: #1e2238; */
+    background: transparent;
+  }
+}
 
 @layer base {
   :root {
@@ -75,7 +97,7 @@
     @apply border-border;
   }
   body {
-    @apply min-h-screen overflow-x-hidden bg-background text-foreground md:overflow-y-hidden;
+    @apply remove-scrollbar min-h-screen overflow-x-hidden bg-background text-foreground;
   }
   .SectionCss {
     @apply flex h-screen items-center justify-center;

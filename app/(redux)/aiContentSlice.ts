@@ -36,11 +36,10 @@ export const generateAiContent = createAsyncThunk(
           createdAt: moment().format("YYYY-MM-DD"),
         });
 
-        // Fetch updated history data
         const updatedHistory = await dispatch(
           fetchHistoryData(userEmail),
         ).unwrap();
-        // Calculate the new total history text and dispatch the action to update it
+
         const totalHistoryText = updatedHistory.reduce(
           (acc, e) => acc + (e.aiResponse?.length || 0),
           0,

@@ -26,7 +26,10 @@ const OutputSection: React.FC<OutputSectionProps> = ({ aiOutput }) => {
       if (content) {
         navigator.clipboard.writeText(content).then(
           () => {
-            toast({ title: "Content copied to clipboard!" });
+            toast({
+              variant: "destructive",
+              title: "Content copied to clipboard!",
+            });
           },
           (err) => {
             toast({ title: "Failed to copy: " });

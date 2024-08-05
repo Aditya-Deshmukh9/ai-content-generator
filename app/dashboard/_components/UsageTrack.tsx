@@ -15,7 +15,6 @@ const UsageTrack: React.FC = () => {
   const { data, loading, error, userSubscriptionDetails } = useAppSelector(
     (state: RootState) => state?.user,
   );
-  console.log(userSubscriptionDetails);
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {

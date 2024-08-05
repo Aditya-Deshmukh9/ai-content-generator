@@ -24,6 +24,7 @@ interface USER_SUBSCRIPTION {
 interface DataState {
   data: HISTORY[];
   totalHistoryText: number;
+  totalHistoryNo: number;
   userSubscriptionDetails: USER_SUBSCRIPTION[] | null;
   loading: boolean;
   error: string | null;
@@ -32,14 +33,6 @@ interface DataState {
 function calculateTotal(data: HISTORY[]): number {
   return data.reduce((acc, e) => acc + (e.aiResponse?.length || 0), 0);
 }
-
-const initialState: DataState = {
-  data: [],
-  totalHistoryText: 0,
-  loading: false,
-  error: null,
-  userSubscriptionDetails: null,
-};
 
 export const fetchHistoryData = createAsyncThunk(
   "data/fetchHistoryData",
@@ -76,6 +69,15 @@ export const fetchUserSubscriptionData = createAsyncThunk(
   },
 );
 
+const initialState: DataState = {
+  data: [],
+  totalHistoryText: 0,
+  totalHistoryNo: 0,
+  loading: false,
+  error: null,
+  userSubscriptionDetails: null,
+};
+
 const userSlice = createSlice({
   name: "data",
   initialState,
@@ -96,6 +98,7 @@ const userSlice = createSlice({
       .addCase(fetchHistoryData.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
+        state.totalHistoryNo = action.payload.length;
         state.totalHistoryText = calculateTotal(action.payload);
       })
       .addCase(fetchHistoryData.rejected, (state, action) => {
