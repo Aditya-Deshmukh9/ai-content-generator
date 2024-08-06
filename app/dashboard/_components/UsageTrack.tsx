@@ -7,7 +7,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 const UsageTrack: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,20 +27,25 @@ const UsageTrack: React.FC = () => {
     }
   }, [dispatch, user]);
 
-  const getTotalUsage = () => {
+  const getTotalUsage = useMemo(() => {
     return data.reduce(
       (total, element) => total + (element?.aiResponse?.length || 0),
       0,
     );
-  };
+  }, [data]);
 
-  const currentCredit = getTotalUsage();
-  const maxCredit =
-    userSubscriptionDetails && userSubscriptionDetails[0]?.active
-      ? 1000000
-      : 10000;
-  const creditPercentage = (currentCredit / maxCredit) * 100;
-
+  const currentCredit = getTotalUsage;
+  const maxCredit = useMemo(
+    () =>
+      userSubscriptionDetails && userSubscriptionDetails[0]?.active
+        ? 1000000
+        : 10000,
+    [userSubscriptionDetails],
+  );
+  const creditPercentage = useMemo(
+    () => (currentCredit / maxCredit) * 100,
+    [currentCredit, maxCredit],
+  );
   if (error) {
     return <div>Error: {error}</div>;
   }

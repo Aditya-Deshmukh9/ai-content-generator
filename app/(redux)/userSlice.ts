@@ -42,6 +42,7 @@ export const fetchHistoryData = createAsyncThunk(
         .select()
         .from(AIResponse)
         .where(eq(AIResponse.createdBy, userEmail));
+
       return results;
     } catch (error) {
       console.log(error);
@@ -60,7 +61,6 @@ export const fetchUserSubscriptionData = createAsyncThunk(
         .from(UserSubscription)
         .where(eq(UserSubscription?.email, userEmail));
 
-      console.log(results);
       return results;
     } catch (error) {
       console.log(error);
@@ -110,7 +110,6 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUserSubscriptionData.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.userSubscriptionDetails = action.payload;
         state.loading = false;
       })

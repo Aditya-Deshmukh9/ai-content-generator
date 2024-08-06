@@ -17,3 +17,14 @@ export const UserSubscription = pgTable("userSubscription", {
   paymentId: varchar("paymentId"),
   joinDate: varchar("joinDate"),
 });
+
+export const MockInterview = pgTable("mockInterview", {
+  id: serial("id").primaryKey(),
+  jsonMockResp: text("jsonMockResp").notNull(),
+  jobPosition: varchar("jobPosition").notNull(),
+  jobDec: varchar("jobDec").notNull(),
+  jobExperience: varchar("jobExperience").notNull(),
+  createBy: varchar("createBy").notNull(),
+  createdAt: varchar("createdAt").notNull(),
+  mockId: varchar("mockId").notNull(),
+});

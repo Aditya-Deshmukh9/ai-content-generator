@@ -4,7 +4,10 @@ export default clerkMiddleware((auth, req) => {
   if (isProtectedRoute(req)) auth().protect();
 });
 
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/interview(.*)",
+]);
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],

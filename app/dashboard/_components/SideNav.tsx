@@ -4,8 +4,10 @@ import Link from "next/link";
 import { Home, History, Settings2, ReceiptIndianRupee } from "lucide-react";
 
 import Image from "next/image";
-import UsageTrack from "./UsageTrack";
 import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const UsageTrack = dynamic(() => import("./UsageTrack"));
 
 function SideNav() {
   const pathname = usePathname();
