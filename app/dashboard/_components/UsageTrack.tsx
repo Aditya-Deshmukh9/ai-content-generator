@@ -73,7 +73,7 @@ const UsageTrack: React.FC = () => {
             {userSubscriptionDetails && userSubscriptionDetails[0]?.active
               ? "10,00,000"
               : "10,000"}{" "}
-            Credit Used
+            Credits
           </div>
         </div>
       </div>

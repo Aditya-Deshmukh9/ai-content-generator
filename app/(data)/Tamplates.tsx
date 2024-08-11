@@ -14,6 +14,22 @@ interface FormData {
   required: boolean;
 }
 
+export interface MockInterviewType {
+  id: number;
+  jsonMockResp: QuestionAnswer[];
+  jobPosition: string;
+  jobDec: string;
+  jobExperience: string;
+  createBy: string;
+  createdAt: string;
+  mockId: string;
+}
+
+export interface QuestionAnswer {
+  question: string;
+  answer: string;
+}
+
 export default [
   {
     name: "Blog Title",
