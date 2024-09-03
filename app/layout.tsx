@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from "react";
 import Loading from "./dashboard/loading";
 import StoreProvider from "./StoreProvider";
+import { cn } from "@/lib/utils";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={outfit.className}>
+        <body className={cn(outfit.className, "scroll-smooth antialiased")}>
           <StoreProvider>
             <ThemeProvider attribute="class" defaultTheme="system">
               <Suspense fallback={<Loading />}>{children}</Suspense>

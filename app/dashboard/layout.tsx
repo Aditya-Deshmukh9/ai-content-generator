@@ -9,14 +9,16 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid h-full w-full bg-slate-200 dark:bg-gray-700 md:h-screen md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <SideNav />
-      <div className="flex flex-col">
-        <HeaderNav />
-        <div className="bg-slate-200 dark:bg-slate-600">
-          <Suspense fallback={<Loading />}>{children}</Suspense>
+    <Suspense fallback={<Loading />}>
+      <div className="grid h-full w-full bg-slate-200 dark:bg-gray-700 md:h-screen md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <SideNav />
+        <div className="flex flex-col">
+          <HeaderNav />
+          <div className="bg-slate-200 dark:bg-slate-600">
+            <Suspense fallback={<Loading />}>{children}</Suspense>
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
