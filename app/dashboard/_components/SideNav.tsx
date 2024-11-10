@@ -37,7 +37,7 @@ function SideNav() {
   ];
 
   return (
-    <div className="hidden border-r bg-muted/40 bg-white px-4 dark:bg-secondary md:block">
+    <div className="hidden border-r bg-muted/40 bg-white dark:bg-secondary md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
@@ -58,7 +58,7 @@ function SideNav() {
               <Link
                 key={index}
                 href={`${text.link}`}
-                className={`${
+                className={`dark:text-white ${
                   pathname === text.link ? "activeNavText" : "navText"
                 }`}
               >

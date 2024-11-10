@@ -87,7 +87,7 @@ const PricePlans: React.FC = () => {
             {pricePlans.map((plan, index) => (
               <div
                 key={index}
-                className={`flex flex-col overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700 ${
+                className={`flex flex-col overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700 dark:bg-slate-900 ${
                   plan.popular
                     ? "relative z-20 bg-white shadow-2xl"
                     : "bg-gray-50 shadow"

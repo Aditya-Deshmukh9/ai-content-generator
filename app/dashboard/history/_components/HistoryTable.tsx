@@ -42,26 +42,24 @@ function HistoryTable() {
     return <Loading />;
   }
   return (
-    <div className="remove-scrollbar m-2 h-full max-w-sm overflow-y-scroll bg-white sm:max-w-full md:m-4 md:max-w-full">
-      {/* <h2 className="px-2 text-xs md:text-xl">
+    <div className="remove-scrollbar m-2 h-full max-w-sm overflow-y-scroll bg-white dark:bg-slate-900 sm:max-w-full md:m-4 md:max-w-full">
+      <h2 className="px-2 text-xs md:text-xl">
         No of History({totalHistoryNo})
-      </h2> */}
+      </h2>
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="font-bold text-black">Tamplate</TableHead>
-            <TableHead className="w-2/6 font-bold text-black">
-              AI Response
-            </TableHead>
-            <TableHead className="font-bold text-black">Date</TableHead>
-            <TableHead className="font-bold text-black">Words</TableHead>
-            <TableHead className="font-bold text-black">Copy</TableHead>
+          <TableRow className="text-slate-900 dark:bg-slate-900 dark:text-white">
+            <TableHead className="font-bold">Tamplate</TableHead>
+            <TableHead className="w-2/6 font-bold">AI Response</TableHead>
+            <TableHead className="font-bold">Date</TableHead>
+            <TableHead className="font-bold">Words</TableHead>
+            <TableHead className="font-bold">Copy</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((data) => (
-            <TableRow key={data.id}>
-              <TableCell className="font-medium">
+            <TableRow key={data.id} className="dark:bg-slate-900">
+              <TableCell className="font-medium dark:text-white">
                 {data?.tamplateSlug}
               </TableCell>
               <TableCell className="h-12 py-2">
@@ -77,7 +75,7 @@ function HistoryTable() {
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter className="bg-slate-100">
+        <TableFooter className="bg-slate-100 dark:bg-slate-900">
           <TableRow>
             <TableCell colSpan={3}>Total Words Counts</TableCell>
             <TableCell className="text-left">{totalHistoryText}</TableCell>

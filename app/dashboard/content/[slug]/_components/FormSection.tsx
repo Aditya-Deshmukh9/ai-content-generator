@@ -28,18 +28,23 @@ function FormSection({ selectedTamplates, userFormInput, loading }: PROPS) {
   };
 
   return (
-    <div className="h-fit w-fit bg-white p-6 dark:bg-gray-500">
+    <div className="h-fit w-fit bg-white p-6 dark:bg-gray-800">
       <Image src={selectedTamplates?.icon} alt="image" height={70} width={70} />
       <h2 className="headerText">{selectedTamplates?.name}</h2>
-      <p className="text-black">{selectedTamplates?.desc}</p>
+      <p className="text-black dark:text-slate-200">
+        {selectedTamplates?.desc}
+      </p>
       <form className="mt-4 py-2" onSubmit={onSubmit}>
         {selectedTamplates?.form?.map((data: any) => (
           <div
             key={data?.name}
             className="grid w-full items-center gap-1.5 py-2"
           >
-            {/* @ts-ignore */}
-            <Label htmlFor={data?.name} className="font-bold text-black">
+            <Label
+              // @ts-ignore
+              htmlFor={data?.name}
+              className="font-bold text-black dark:text-white"
+            >
               {data?.label} {data?.required ? null : "[Optional]"}
             </Label>
             {data?.field === "input" ? (

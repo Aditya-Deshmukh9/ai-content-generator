@@ -11,7 +11,7 @@ function SearchSection({ setSearcInput }: any) {
           type="search"
           onChange={(e) => setSearcInput(e.target.value)}
           placeholder="Search products..."
-          className="h-11 w-full bg-background pl-10 shadow-none"
+          className="h-11 w-full bg-background pl-10 text-black shadow-none dark:text-white"
         />
       </div>
     </div>
