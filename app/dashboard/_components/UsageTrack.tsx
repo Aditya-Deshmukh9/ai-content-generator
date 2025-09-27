@@ -1,9 +1,6 @@
 "use client";
-import { RootState } from "@/app/(redux)/store";
-import {
-  fetchUserSubscriptionData,
-  fetchHistoryData,
-} from "@/app/(redux)/userSlice";
+import { RootState } from "@/redux/store";
+import { fetchUserSubscriptionData, fetchHistoryData } from "@/redux/userSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
@@ -21,9 +18,13 @@ const UsageTrack: React.FC = () => {
       dispatch(
         fetchUserSubscriptionData(user?.primaryEmailAddress?.emailAddress),
       );
-      dispatch(fetchHistoryData(user?.primaryEmailAddress?.emailAddress));
-    } else {
-      console.error("User email is not available");
+      dispatch(
+        fetchHistoryData({
+          userEmail: user?.primaryEmailAddress?.emailAddress,
+          page: 1,
+          limit: 10,
+        }),
+      );
     }
   }, [dispatch, user]);
 
@@ -42,10 +43,12 @@ const UsageTrack: React.FC = () => {
         : 10000,
     [userSubscriptionDetails],
   );
+
   const creditPercentage = useMemo(
     () => (currentCredit / maxCredit) * 100,
     [currentCredit, maxCredit],
   );
+
   if (error) {
     return <div>Error: {error}</div>;
   }

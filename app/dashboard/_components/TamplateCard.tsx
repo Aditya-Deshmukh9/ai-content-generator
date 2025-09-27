@@ -1,5 +1,5 @@
 "use client";
-import { TamplateTypes } from "@/app/(data)/Tamplates";
+import { TamplateTypes } from "@/utils/constant";
 import Image from "next/image";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import Link from "next/link";

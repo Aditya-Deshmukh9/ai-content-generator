@@ -42,7 +42,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center px-4 text-white shadow-lg lg:px-6">
+    <header className="sticky top-0 z-20 flex h-10 items-center px-4 text-white shadow-lg lg:px-6">
       <Link href="#home" className="flex items-center gap-2 font-semibold">
         <Image
           src="/logo.svg"

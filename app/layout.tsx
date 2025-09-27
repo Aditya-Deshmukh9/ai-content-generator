@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from "react";
 import Loading from "./dashboard/loading";
-import StoreProvider from "./StoreProvider";
+import StoreProvider from "@/redux/StoreProvider";
 import { cn } from "@/lib/utils";
 
 const outfit = Outfit({ subsets: ["latin"] });

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/utils/db";
 import { AIResponse, UserSubscription } from "@/utils/schema";
 
@@ -28,6 +28,9 @@ interface DataState {
   userSubscriptionDetails: USER_SUBSCRIPTION[] | null;
   loading: boolean;
   error: string | null;
+  page: number;
+  limit: number;
+  total: number;
 }
 
 function calculateTotal(data: HISTORY[]): number {
@@ -36,14 +39,34 @@ function calculateTotal(data: HISTORY[]): number {
 
 export const fetchHistoryData = createAsyncThunk(
   "data/fetchHistoryData",
-  async (userEmail: string, { rejectWithValue }) => {
+  async (
+    {
+      userEmail,
+      page,
+      limit,
+    }: { userEmail: string; page: number; limit: number },
+    { rejectWithValue },
+  ) => {
     try {
+      const offset = (page - 1) * limit;
+
       const results: HISTORY[] = await db
         .select()
         .from(AIResponse)
+        .where(eq(AIResponse.createdBy, userEmail))
+        .orderBy(desc(AIResponse.createdAt))
+        .limit(limit)
+        .offset(offset);
+
+      const [{ count }] = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(AIResponse)
         .where(eq(AIResponse.createdBy, userEmail));
 
-      return results;
+      return {
+        results,
+        total: count,
+      };
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -76,6 +99,9 @@ const initialState: DataState = {
   loading: false,
   error: null,
   userSubscriptionDetails: null,
+  page: 1,
+  limit: 10,
+  total: 0,
 };
 
 const userSlice = createSlice({
@@ -96,10 +122,10 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchHistoryData.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.data = action.payload.results;
         state.loading = false;
-        state.totalHistoryNo = action.payload.length;
-        state.totalHistoryText = calculateTotal(action.payload);
+        state.totalHistoryNo = action.payload.results.length;
+        state.totalHistoryText = calculateTotal(action.payload.results);
       })
       .addCase(fetchHistoryData.rejected, (state, action) => {
         state.loading = false;

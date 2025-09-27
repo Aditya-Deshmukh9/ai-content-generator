@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import axios from "axios";
 import { Loader2Icon } from "lucide-react";
-import { pricePlans } from "@/app/(data)/Types";
+import { pricePlans } from "@/utils/constant";
 import Script from "next/script";
 import { db } from "@/utils/db";
 import { UserSubscription } from "@/utils/schema";
 import moment from "moment";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "@/components/ui/use-toast";
-import { RootState } from "@/app/(redux)/store";
+import { RootState } from "@/redux/store";
 import { useAppSelector } from "@/app/hooks";
 
 const PricePlans: React.FC = () => {

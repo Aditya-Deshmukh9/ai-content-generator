@@ -12,7 +12,11 @@ interface PROPS {
   userFormInput: any;
   loading: boolean;
 }
-function FormSection({ selectedTamplates, userFormInput, loading }: PROPS) {
+export function FormSection({
+  selectedTamplates,
+  userFormInput,
+  loading,
+}: PROPS) {
   const [formData, setFormData] = useState<Record<string, any>>({});
 
   const handleInputChange = (
@@ -52,7 +56,7 @@ function FormSection({ selectedTamplates, userFormInput, loading }: PROPS) {
                 type="text"
                 name={data?.name}
                 placeholder={data?.label}
-                className="text-black shadow-lg"
+                className="shadow-lg dark:text-white"
                 onChange={handleInputChange}
                 required={data?.required}
               />
@@ -78,5 +82,3 @@ function FormSection({ selectedTamplates, userFormInput, loading }: PROPS) {
     </div>
   );
 }
-
-export default FormSection;

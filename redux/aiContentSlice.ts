@@ -9,12 +9,14 @@ interface AiContentState {
   aiOutput: string;
   loading: boolean;
   error: string | null;
+  historyData: string | null;
 }
 
 const initialState: AiContentState = {
   aiOutput: "",
   loading: false,
   error: null,
+  historyData: null,
 };
 
 export const generateAiContent = createAsyncThunk(
@@ -40,7 +42,7 @@ export const generateAiContent = createAsyncThunk(
           fetchHistoryData(userEmail),
         ).unwrap();
 
-        const totalHistoryText = updatedHistory.reduce(
+        const totalHistoryText = updatedHistory.results.reduce(
           (acc, e) => acc + (e.aiResponse?.length || 0),
           0,
         );
@@ -50,7 +52,7 @@ export const generateAiContent = createAsyncThunk(
       }
       return aiResponse;
     } catch (error) {
-      console.log(error);
+      console.log("aicontent ", error);
 
       return rejectWithValue(error);
     }
@@ -60,7 +62,11 @@ export const generateAiContent = createAsyncThunk(
 const aiContentSlice = createSlice({
   name: "aiContent",
   initialState,
-  reducers: {},
+  reducers: {
+    setHistoryData: (state, action: PayloadAction<string>) => {
+      state.aiOutput = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(generateAiContent.pending, (state) => {

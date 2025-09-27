@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
 import TamplateCard from "./TamplateCard";
-import Tamplates from "@/app/(data)/Tamplates";
+import { Tamplates } from "@/utils/constant";
 
 function TamplatelistSection({ SearcInput }: any) {
   const filterTamplate = useMemo(() => {
