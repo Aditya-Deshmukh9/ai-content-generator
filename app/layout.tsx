@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import Loading from "./dashboard/loading";
 import StoreProvider from "@/redux/StoreProvider";
 import { cn } from "@/lib/utils";
+import ScrollToTop from "@/components/LandingPage/ScrollToTop";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -23,11 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className={cn(outfit.className, "scroll-smooth antialiased")}>
           <StoreProvider>
             <ThemeProvider attribute="class" defaultTheme="system">
-              <Suspense fallback={<Loading />}>{children}</Suspense>
+              <Suspense fallback={<Loading />}>
+                <ScrollToTop/>
+                {children}</Suspense>
             </ThemeProvider>
             <Toaster />
           </StoreProvider>

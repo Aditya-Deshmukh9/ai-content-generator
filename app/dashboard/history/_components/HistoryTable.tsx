@@ -53,71 +53,97 @@ function HistoryTable() {
   if (loading) return <Loading />;
 
   return (
-    <div className="remove-scrollbar m-2 h-full max-w-sm overflow-y-scroll bg-white dark:bg-slate-900 sm:max-w-full md:m-4 md:max-w-full">
-      <h2 className="px-2 py-3 text-xs font-semibold md:text-xl">
+    <div className="remove-scrollbar h-full overflow-y-auto bg-white p-4 dark:bg-slate-900 sm:p-6 lg:p-8">
+      {/* Header */}
+      <h2 className="mb-6 text-base font-semibold dark:text-white sm:text-lg md:text-xl lg:text-2xl">
         No of History ({totalHistoryNo})
       </h2>
 
-      <Table>
-        <TableHeader>
-          <TableRow className="text-slate-900 dark:bg-slate-900 dark:text-white">
-            <TableHead className="font-bold">Template</TableHead>
-            <TableHead className="w-2/6 font-bold">AI Response</TableHead>
-            <TableHead className="font-bold">Date</TableHead>
-            <TableHead className="font-bold">Words</TableHead>
-            <TableHead className="font-bold">Copy</TableHead>
-          </TableRow>
-        </TableHeader>
+      {/* Table wrapper for horizontal scroll on mobile */}
+      <div className="mb-6 overflow-hidden rounded-md border">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="font-semibold">Template</TableHead>
+                <TableHead className="min-w-[200px] font-semibold sm:min-w-[300px]">
+                  AI Response
+                </TableHead>
+                <TableHead className="whitespace-nowrap font-semibold">
+                  Date
+                </TableHead>
+                <TableHead className="whitespace-nowrap font-semibold">
+                  Words
+                </TableHead>
+                <TableHead className="whitespace-nowrap font-semibold">
+                  Copy
+                </TableHead>
+              </TableRow>
+            </TableHeader>
 
-        <TableBody>
-          {data.map((item) => (
-            <TableRow
-              key={item.id}
-              className="hover:bg-green-400 dark:bg-slate-900 dark:hover:bg-green-400"
-            >
-              <TableCell className="font-medium dark:text-white">
-                {item?.tamplateSlug}
-              </TableCell>
-              <TableCell className="h-12 py-2">
-                <h3 className="mx-2 line-clamp-1 overflow-hidden">
-                  {item?.aiResponse}
-                </h3>
-              </TableCell>
-              <TableCell>{item?.createdAt}</TableCell>
-              <TableCell>{item?.aiResponse?.length}</TableCell>
-              <TableCell>
-                <Button variant="bgColor">Copy</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+            <TableBody>
+              {data.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">
+                    <div className="line-clamp-2 max-w-[150px] sm:max-w-none">
+                      {item?.tamplateSlug}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="line-clamp-2">{item?.aiResponse}</div>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap text-sm">
+                    {item?.createdAt}
+                  </TableCell>
+                  <TableCell className="text-center text-sm">
+                    {item?.aiResponse?.length}
+                  </TableCell>
+                  <TableCell>
+                    <Button variant="bgColor" size="sm">
+                      Copy
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
 
-        <TableFooter className="bg-slate-100 dark:bg-slate-900">
-          <TableRow>
-            <TableCell colSpan={3}>Total Words Count</TableCell>
-            <TableCell className="text-left">{totalHistoryText}</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={3} className="font-semibold">
+                  Total Words Count
+                </TableCell>
+                <TableCell className="text-center font-bold">
+                  {totalHistoryText}
+                </TableCell>
+                <TableCell />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
+      </div>
 
-      {/* Pagination Controls */}
-      <div className="mt-4 flex justify-center gap-4">
+      {/* Pagination */}
+      <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
         <Button
           variant="outline"
+          size="default"
           disabled={page === 1}
           onClick={() => setPage((p) => p - 1)}
+          className="w-full sm:w-auto"
         >
           Previous
         </Button>
 
-        <span className="self-center">
+        <span className="text-sm font-medium">
           Page {page} of {totalPages}
         </span>
 
         <Button
           variant="outline"
+          size="default"
           disabled={page === totalPages}
           onClick={() => setPage((p) => p + 1)}
+          className="w-full sm:w-auto"
         >
           Next
         </Button>

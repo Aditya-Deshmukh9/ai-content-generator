@@ -1,6 +1,5 @@
 "use client";
-import { Tamplates } from "@/utils/constant";
-import React, { useMemo, use } from "react";
+import React, { useMemo, use, useEffect } from "react";
 import { FormSection } from "./_components/FormSection";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -8,14 +7,13 @@ import Link from "next/link";
 import { OutputSection } from "./_components/OutputSection";
 import { useUser } from "@clerk/nextjs";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { RootState } from "@/redux/store";
-import { generateAiContent } from "@/redux/aiContentSlice";
 import { useSearchParams } from "next/navigation";
-import { useParams } from "next/navigation";
+import { Tamplates } from "@/utils/constant";
+import { generateAiContent } from "@/redux/aiContentSlice";
+import { RootState } from "@/redux/store";
 
-function TamplateDetailsPage() {
-  const params = useParams();
-  const { slug } = params;
+function TamplateDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+ const {slug } = use(params)
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const { aiOutput, loading } = useAppSelector(
@@ -26,9 +24,11 @@ function TamplateDetailsPage() {
   const historyData = historyQuery.get("history");
   console.log(historyData);
 
+
+
   const selectedTamplates = useMemo(
-    () => Tamplates.find((item) => item.slug === params.slug),
-    [params.slug],
+    () => Tamplates?.find((item) => item?.slug === slug),
+    [slug],
   );
 
   const GenerateAiContent = (formData: any) => {
@@ -39,7 +39,7 @@ function TamplateDetailsPage() {
       generateAiContent({
         formData,
         selectedPrompt,
-        slug: params.slug,
+        slug: slug,
         userEmail,
       }),
     );

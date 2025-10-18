@@ -2,29 +2,23 @@
 import { useState, useEffect } from "react";
 import {
   Sparkles,
-  Type,
-  Youtube,
-  Mail,
-  Smile,
-  Search,
-  CheckCircle,
-  Zap,
-  Users,
   ArrowRight,
-  Star,
   Play,
-  MessageSquare,
   Wand2,
   Rocket,
-  Brain,
-  Target,
 } from "lucide-react";
-import { templates, features, pricingPlans } from "@/utils/landingPageConstant";
+import { templates, features } from "@/utils/landingPageConstant";
+import Link from "next/link";
+import { useAuth, useUser } from "@clerk/nextjs";
 
 export default function AwesomeLandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
+  const [dots, setDots] = useState<
+    { left: string; top: string; delay: string; duration: string }[]
+  >([]);
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
     setIsVisible(true);
@@ -44,9 +38,18 @@ export default function AwesomeLandingPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const generated = Array.from({ length: 50 }, () => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 3}s`,
+      duration: `${2 + Math.random() * 3}s`,
+    }));
+    setDots(generated);
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
-      {/* Dynamic Background */}
       <div className="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-pink-900/20 to-indigo-900/20" />
       <div
         className="fixed inset-0 opacity-30"
@@ -57,15 +60,15 @@ export default function AwesomeLandingPage() {
 
       {/* Animated particles */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        {[...Array(50)].map((_, i) => (
+        {dots.map((dot, i) => (
           <div
             key={i}
             className="absolute animate-pulse"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
+              left: dot.left,
+              top: dot.top,
+              animationDelay: dot.delay,
+              animationDuration: dot.duration,
             }}
           >
             <div className="h-1 w-1 animate-ping rounded-full bg-purple-400" />
@@ -77,28 +80,31 @@ export default function AwesomeLandingPage() {
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/20 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+            <Link href={"/"} className="flex items-center space-x-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-pink-500">
                 <Sparkles className="h-5 w-5" />
               </div>
               <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-xl font-bold text-transparent">
-                AI Genius
+                Content Genie
               </span>
-            </div>
+            </Link>
             <div className="hidden space-x-8 md:flex">
-              {["Features", "Templates", "Pricing", "About"].map((item) => (
-                <a
+              {["Home", "Templates", "Why Choose us"].map((item) => (
+                <Link
                   key={item}
-                  href="#"
+                  href={"#" + item.toLowerCase().replace(/\s/g,"")}
                   className="transition-colors duration-300 hover:text-purple-400"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
             </div>
-            <button className="transform rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2 font-semibold transition-all duration-300 hover:scale-105 hover:from-purple-700 hover:to-pink-700">
+            <Link
+              href={isSignedIn ? "/dashboard" : "/sign-in"}
+              className="transform rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2 font-semibold transition-all duration-300 hover:scale-105 hover:from-purple-700 hover:to-pink-700"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -112,7 +118,7 @@ export default function AwesomeLandingPage() {
             <div className="mb-8 inline-flex items-center rounded-full border border-purple-500/30 bg-gradient-to-r from-purple-600/20 to-pink-600/20 px-6 py-3 backdrop-blur-sm">
               <Rocket className="mr-2 h-5 w-5 text-purple-400" />
               <span className="text-sm font-medium">
-                🚀 Now with GPT-4 Turbo Technology
+                🚀 Now with Gemini-2.5 Turbo Technology
               </span>
             </div>
 
@@ -140,14 +146,17 @@ export default function AwesomeLandingPage() {
             </p>
 
             <div className="mb-16 flex flex-col items-center justify-center gap-6 sm:flex-row">
-              <button className="group transform rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 text-lg font-bold transition-all duration-300 hover:scale-105 hover:from-purple-700 hover:to-pink-700 hover:shadow-2xl hover:shadow-purple-500/25">
+              <Link
+                href={isSignedIn ? "/dashboard" : "/sign-in"}
+                className="group transform rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 text-lg font-bold transition-all duration-300 hover:scale-105 hover:from-purple-700 hover:to-pink-700 hover:shadow-2xl hover:shadow-purple-500/25"
+              >
                 Start Creating Magic
                 <ArrowRight className="ml-2 inline-block h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </button>
-              <button className="group flex items-center space-x-3 rounded-full border border-white/20 px-8 py-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+              </Link>
+              <Link href={isSignedIn ? "/dashboard" : "/sign-in"} className="group flex items-center space-x-3 rounded-full border border-white/20 px-8 py-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
                 <Play className="h-5 w-5 text-purple-400" />
                 <span>Watch Demo</span>
-              </button>
+              </Link>
             </div>
 
             {/* Stats */}
@@ -182,7 +191,7 @@ export default function AwesomeLandingPage() {
       </section>
 
       {/* Templates Section */}
-      <section className="relative py-32">
+      <section id="templates" className="relative py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-20 text-center">
             <h2 className="mb-6 text-5xl font-bold md:text-6xl">
@@ -198,8 +207,9 @@ export default function AwesomeLandingPage() {
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {templates.map((template, i) => (
-              <div
+              <Link
                 key={i}
+                href={template.link || "/dashboard"}
                 className={`group relative transform cursor-pointer overflow-hidden rounded-3xl border border-white/10 p-8 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:border-white/20 ${
                   activeFeature === i ? "scale-105 border-purple-500/50" : ""
                 }`}
@@ -225,14 +235,14 @@ export default function AwesomeLandingPage() {
                 <div className="absolute bottom-4 right-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <ArrowRight className="h-6 w-6 text-purple-400" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="relative py-32">
+      <section id="whychooseus" className="relative py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-20 text-center">
             <h2 className="mb-6 text-5xl font-bold md:text-6xl">
@@ -260,83 +270,6 @@ export default function AwesomeLandingPage() {
                 <p className="text-lg leading-relaxed text-gray-300">
                   {feature.description}
                 </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section className="relative py-32">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-20 text-center">
-            <h2 className="mb-6 text-5xl font-bold md:text-6xl">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Choose Your Power
-              </span>
-            </h2>
-            <p className="mx-auto max-w-2xl text-xl text-gray-300">
-              Unlock unlimited creativity with plans designed for every ambition
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {pricingPlans.map((plan, i) => (
-              <div
-                key={i}
-                className={`relative transform overflow-hidden rounded-3xl border p-8 backdrop-blur-sm transition-all duration-500 hover:scale-105 ${
-                  plan.popular
-                    ? "border-purple-500 bg-gradient-to-br from-purple-900/20 to-pink-900/20"
-                    : "border-white/10 hover:border-white/20"
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 transform">
-                    <div className="rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-2 text-sm font-bold">
-                      🔥 Most Popular
-                    </div>
-                  </div>
-                )}
-
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${plan.gradient} opacity-5`}
-                />
-
-                <div className="relative z-10">
-                  <h3 className="mb-4 text-2xl font-bold">{plan.name}</h3>
-                  <div className="mb-6">
-                    <span className="text-5xl font-bold">{plan.price}</span>
-                    {plan.originalPrice && (
-                      <span className="ml-2 text-lg text-gray-500 line-through">
-                        {plan.originalPrice}
-                      </span>
-                    )}
-                    {plan.price !== "Custom" && (
-                      <span className="text-gray-400">/month</span>
-                    )}
-                  </div>
-
-                  <ul className="mb-8 space-y-4">
-                    {plan.features.map((feature, j) => (
-                      <li key={j} className="flex items-center">
-                        <CheckCircle className="mr-3 h-5 w-5 flex-shrink-0 text-green-400" />
-                        <span className="text-gray-300">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <button
-                    className={`w-full transform rounded-2xl py-4 font-bold transition-all duration-300 hover:scale-105 ${
-                      plan.popular
-                        ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700"
-                        : "border border-white/20 bg-white/10 text-white hover:bg-white/20"
-                    }`}
-                  >
-                    {plan.price === "Custom"
-                      ? "Contact Sales"
-                      : "Start Free Trial"}
-                  </button>
-                </div>
               </div>
             ))}
           </div>
@@ -383,28 +316,28 @@ export default function AwesomeLandingPage() {
       <footer className="border-t border-white/10 py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-center justify-between md:flex-row">
-            <div className="mb-4 flex items-center space-x-2 md:mb-0">
+            <Link href={"/"} className="mb-4 flex items-center space-x-2 md:mb-0">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-pink-500">
                 <Sparkles className="h-5 w-5" />
               </div>
               <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-xl font-bold text-transparent">
-                AI Genius
+                Content Genie
               </span>
-            </div>
+            </Link>
             <div className="flex space-x-8 text-gray-400">
-              {["Privacy", "Terms", "Support", "Blog"].map((item) => (
-                <a
+              {["Home", "Templates", "Why Choose us"].map((item) => (
+                <Link
                   key={item}
-                  href="#"
-                  className="transition-colors hover:text-purple-400"
+                  href={"#" + item.toLowerCase().replace(/\s/g, "")}
+                  className="transition-colors hover:text-purple-400 cursor-pointer"
                 >
                   {item}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
           <div className="mt-8 text-center text-gray-500">
-            © 2025 AI Genius. All rights reserved. Made with ❤️ for creators.
+            © 2025 Content Genie. All rights reserved. Made with ❤️ for creators.
           </div>
         </div>
       </footer>

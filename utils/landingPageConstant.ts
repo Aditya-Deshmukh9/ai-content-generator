@@ -1,21 +1,13 @@
 import {
-  Sparkles,
-  Type,
   Youtube,
   Mail,
-  Smile,
-  Search,
   CheckCircle,
   Zap,
   Users,
-  ArrowRight,
-  Star,
-  Play,
-  MessageSquare,
   Wand2,
-  Rocket,
   Brain,
   Target,
+  PenBox,
 } from "lucide-react";
 
 export const templates = [
@@ -23,27 +15,32 @@ export const templates = [
     icon: Brain,
     title: "AI Blog Posts",
     color: "from-purple-500 to-pink-500",
+    link: "/dashboard/content/ai-blog-posts",
   },
   {
-    icon: Smile,
-    title: "Text to Emoji",
+    icon: PenBox,
+    title: "Ai Prompt Enhancer",
     color: "from-yellow-400 to-orange-500",
+    link: "/dashboard/content/ai-prompt-enhancer",
   },
   {
     icon: Youtube,
     title: "YouTube Magic",
     color: "from-red-500 to-pink-500",
+    link: "/dashboard/content/youtube-magic",
   },
-  { icon: Mail, title: "Email Wizardry", color: "from-blue-500 to-cyan-500" },
+  { icon: Mail, title: "Email Wizardry", color: "from-blue-500 to-cyan-500", link: "/dashboard/content/email-wizardry", },
   {
     icon: Target,
     title: "SEO Optimizer",
     color: "from-green-500 to-emerald-500",
+    link: "/dashboard/content/seo-optimizer",
   },
   {
     icon: Wand2,
     title: "Text Enhancer",
     color: "from-indigo-500 to-purple-500",
+    link: "/dashboard/content/text-enhancer",
   },
 ];
 

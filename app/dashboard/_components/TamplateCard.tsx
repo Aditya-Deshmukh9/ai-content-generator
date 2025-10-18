@@ -11,7 +11,7 @@ export default function TamplateCard(data: TamplateTypes) {
   return (
     <Link href={"/dashboard/content/" + data.slug}>
       <Card
-        className={`flex cursor-pointer flex-col justify-between gap-2 gap-y-2 rounded-md border border-slate-200 p-3 shadow-md transition-all hover:scale-110 hover:shadow-xl sm:w-full ${
+        className={`flex cursor-pointer flex-col justify-between gap-2 gap-y-2 rounded-md border border-slate-200 p-3 shadow-md transition-all hover:scale-105 hover:shadow-xl sm:w-full ${
           isHovered ? "color text-white" : "bg-background"
         }`}
         onMouseEnter={() => setIsHovered(true)}

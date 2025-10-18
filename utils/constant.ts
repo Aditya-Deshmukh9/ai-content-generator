@@ -19,7 +19,7 @@ export const Tamplates: TamplateTypes[] = [
     name: "Ai Prompt Enhancer",
     desc: "Turn rough ideas into polished, professional prompts. Our tool enhances clarity, adds roles, defines formats, and improves grammar for better AI outputs.",
     category: "Writing",
-    icon: "https://cdn-icons-png.flaticon.com/128/6125/6125875.png",
+    icon: "https://cdn-icons-png.flaticon.com/512/10328/10328681.png",
     aiPrompt: `INPUT: You will receive a short user prompt and some options (tone, length, format, role). Produce a single JSON object with these fields:
 
 * enhanced_prompt: the full prompt text to send to an LLM.
@@ -77,6 +77,151 @@ USER_PROMPT:
         label: "Additional Details (e.g. context, audience, constraints)",
         field: "textarea",
         name: "extra_details",
+      },
+    ],
+  },
+  {
+    name: "AI Blog Posts",
+    desc: "AI-powered templates that create ai blog posts that convert and engage",
+    category: "Writing",
+    icon: "https://cdn-icons-png.flaticon.com/128/3135/3135715.png",
+    slug: "ai-blog-posts",
+    aiPrompt: `Write a high-quality blog post based on the user's input. 
+- Include a clear introduction, structured headings, and actionable insights.
+- Optimize for SEO using natural keywords.
+- Tone should be engaging and professional.
+- Keep length between 800-1200 words.`,
+    form: [
+      {
+        label: "Blog Topic / Idea",
+        field: "textarea",
+        name: "blog_topic",
+        required: true,
+      },
+      {
+        label: "Target Audience / Style Details",
+        field: "textarea",
+        name: "extra_details",
+      },
+    ],
+  },
+  {
+    name: "Text to Emoji",
+    desc: "AI-powered templates that create text to emoji that convert and engage",
+    category: "Fun",
+    icon: "https://cdn-icons-png.flaticon.com/128/742/742751.png",
+    slug: "text-to-emoji",
+    aiPrompt: `Convert the provided text into a fun and expressive version using emojis. 
+- Preserve original meaning.
+- Add relevant emojis to enhance tone and emotion.
+- Keep it easy to read and social media-friendly.`,
+    form: [
+      {
+        label: "Your Text",
+        field: "textarea",
+        name: "text_input",
+        required: true,
+      },
+      {
+        label: "Tone (e.g., playful, formal, sarcastic)",
+        field: "input",
+        name: "tone",
+      },
+    ],
+  },
+  {
+    name: "YouTube Magic",
+    desc: "AI-powered templates that create youtube magic that convert and engage",
+    category: "Content Creation",
+    icon: "https://cdn-icons-png.flaticon.com/128/1384/1384060.png",
+    slug: "youtube-magic",
+    aiPrompt: `Generate YouTube script ideas, titles, and engaging video outlines based on the given topic. 
+- Include hook ideas for the first 10 seconds.
+- Suggest a call to action and tags.
+- Make it engaging and optimized for watch time.`,
+    form: [
+      {
+        label: "Video Topic or Niche",
+        field: "textarea",
+        name: "video_topic",
+        required: true,
+      },
+      {
+        label: "Preferred Style (e.g., educational, storytelling, comedic)",
+        field: "input",
+        name: "video_style",
+      },
+    ],
+  },
+  {
+    name: "Email Wizardry",
+    desc: "AI-powered templates that create email wizardry that convert and engage",
+    category: "Email",
+    icon: "https://cdn-icons-png.flaticon.com/128/10026/10026257.png",
+    slug: "email-wizardry",
+    aiPrompt: `Write a professional, high-converting email based on the provided details. 
+- Include subject line, introduction, body, and call-to-action.
+- Tone should match the audience (formal, persuasive, or casual).
+- Keep it concise and clear.`,
+    form: [
+      {
+        label: "Email Purpose (e.g., sales, follow-up, newsletter)",
+        field: "input",
+        name: "email_purpose",
+        required: true,
+      },
+      {
+        label: "Main Message / Offer Details",
+        field: "textarea",
+        name: "email_content",
+      },
+    ],
+  },
+  {
+    name: "SEO Optimizer",
+    desc: "AI-powered templates that create seo optimizer that convert and engage",
+    category: "SEO",
+    icon: "https://cdn-icons-png.flaticon.com/128/9422/9422395.png",
+    slug: "seo-optimizer",
+    aiPrompt: `Analyze the provided topic or content and generate SEO-optimized keywords, meta description, and content suggestions. 
+- Include long-tail keyword ideas.
+- Suggest internal linking opportunities.
+- Output in a structured format.`,
+    form: [
+      {
+        label: "Main Topic or Keyword",
+        field: "input",
+        name: "seo_topic",
+        required: true,
+      },
+      {
+        label: "Existing Content (Optional)",
+        field: "textarea",
+        name: "existing_content",
+      },
+    ],
+  },
+  {
+    name: "Text Enhancer",
+    desc: "AI-powered templates that create text enhancer that convert and engage",
+    category: "Writing",
+    icon: "https://cdn-icons-png.flaticon.com/128/6125/6125875.png",
+    slug: "text-enhancer",
+    aiPrompt: `Enhance the provided text for clarity, grammar, tone, and impact. 
+- Suggest improved sentence structures.
+- Keep original meaning intact.
+- Make it sound more professional and engaging.`,
+    form: [
+      {
+        label: "Text to Enhance",
+        field: "textarea",
+        name: "raw_text",
+        required: true,
+      },
+      {
+        label: "Tone (e.g., formal, persuasive, friendly)",
+        field: "input",
+        name: "tone",
       },
     ],
   },
