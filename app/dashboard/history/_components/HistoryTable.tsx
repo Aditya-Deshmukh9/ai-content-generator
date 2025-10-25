@@ -82,7 +82,7 @@ function HistoryTable() {
             </TableHeader>
 
             <TableBody>
-              {data.map((item) => (
+              {data.map((item: any) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">
                     <div className="line-clamp-2 max-w-[150px] sm:max-w-none">

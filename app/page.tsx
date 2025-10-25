@@ -1,15 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import {
-  Sparkles,
-  ArrowRight,
-  Play,
-  Wand2,
-  Rocket,
-} from "lucide-react";
+import { Sparkles, ArrowRight, Play, Wand2, Rocket } from "lucide-react";
 import { templates, features } from "@/utils/landingPageConstant";
 import Link from "next/link";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 export default function AwesomeLandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -92,7 +86,7 @@ export default function AwesomeLandingPage() {
               {["Home", "Templates", "Why Choose us"].map((item) => (
                 <Link
                   key={item}
-                  href={"#" + item.toLowerCase().replace(/\s/g,"")}
+                  href={"#" + item.toLowerCase().replace(/\s/g, "")}
                   className="transition-colors duration-300 hover:text-purple-400"
                 >
                   {item}
@@ -153,7 +147,10 @@ export default function AwesomeLandingPage() {
                 Start Creating Magic
                 <ArrowRight className="ml-2 inline-block h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href={isSignedIn ? "/dashboard" : "/sign-in"} className="group flex items-center space-x-3 rounded-full border border-white/20 px-8 py-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/10">
+              <Link
+                href={isSignedIn ? "/dashboard" : "/sign-in"}
+                className="group flex items-center space-x-3 rounded-full border border-white/20 px-8 py-4 backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
+              >
                 <Play className="h-5 w-5 text-purple-400" />
                 <span>Watch Demo</span>
               </Link>
@@ -316,7 +313,10 @@ export default function AwesomeLandingPage() {
       <footer className="border-t border-white/10 py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-center justify-between md:flex-row">
-            <Link href={"/"} className="mb-4 flex items-center space-x-2 md:mb-0">
+            <Link
+              href={"/"}
+              className="mb-4 flex items-center space-x-2 md:mb-0"
+            >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-pink-500">
                 <Sparkles className="h-5 w-5" />
               </div>
@@ -329,7 +329,7 @@ export default function AwesomeLandingPage() {
                 <Link
                   key={item}
                   href={"#" + item.toLowerCase().replace(/\s/g, "")}
-                  className="transition-colors hover:text-purple-400 cursor-pointer"
+                  className="cursor-pointer transition-colors hover:text-purple-400"
                 >
                   {item}
                 </Link>
@@ -337,7 +337,8 @@ export default function AwesomeLandingPage() {
             </div>
           </div>
           <div className="mt-8 text-center text-gray-500">
-            © 2025 Content Genie. All rights reserved. Made with ❤️ for creators.
+            © 2025 Content Genie. All rights reserved. Made with ❤️ for
+            creators.
           </div>
         </div>
       </footer>

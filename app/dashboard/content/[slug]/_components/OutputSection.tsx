@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, FileDown } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-// import { jsPDF } from "jspdf";
+import ExportToPdf from "@/app/dashboard/_components/ExportToPdf";
 
 interface OutputSectionProps {
   aiOutput: string;
@@ -40,23 +40,9 @@ export const OutputSection: React.FC<OutputSectionProps> = ({ aiOutput }) => {
     }
   };
 
-  // ✅ Export text to PDF
-  const exportToPDF = () => {
-    // if (editorRef.current) {
-    //   const content = editorRef.current?.getInstance().getMarkdown();
-    //   if (content) {
-    //     const doc = new jsPDF();
-    //     const lines = doc.splitTextToSize(content, 180); // wrap text to page width
-    //     doc.text(lines, 10, 10);
-    //     doc.save("output.pdf");
-    //     toast({
-    //       title: "PDF downloaded successfully!",
-    //     });
-    //   }
-    // }
-  };
 
-  const SendEmail = () => {};
+
+  // const SendEmail = () => { };
 
   return (
     <div className="col-span-2 h-fit bg-white">
@@ -70,16 +56,14 @@ export const OutputSection: React.FC<OutputSectionProps> = ({ aiOutput }) => {
           >
             <Copy /> Copy
           </Button>
-          <Button onClick={exportToPDF} variant="bgColor" className="gap-x-2">
-            <FileDown /> Export PDF
-          </Button>
-          <Button
+          <ExportToPdf aiOutput={aiOutput} />
+          {/* <Button
             onClick={SendEmail}
             variant="bgColor"
             className="gap-x-2 bg-sky-400"
           >
             <FileDown /> Send Email
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className="h-full w-full">

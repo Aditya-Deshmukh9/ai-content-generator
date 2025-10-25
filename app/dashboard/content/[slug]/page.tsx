@@ -12,8 +12,12 @@ import { Tamplates } from "@/utils/constant";
 import { generateAiContent } from "@/redux/aiContentSlice";
 import { RootState } from "@/redux/store";
 
-function TamplateDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
- const {slug } = use(params)
+function TamplateDetailsPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const { aiOutput, loading } = useAppSelector(
@@ -23,8 +27,6 @@ function TamplateDetailsPage({ params }: { params: Promise<{ slug: string }> }) 
 
   const historyData = historyQuery.get("history");
   console.log(historyData);
-
-
 
   const selectedTamplates = useMemo(
     () => Tamplates?.find((item) => item?.slug === slug),

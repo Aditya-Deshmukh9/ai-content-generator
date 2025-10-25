@@ -1,4 +1,5 @@
-import { Suspense } from "react";
+"use client"
+import { Suspense, useState } from "react";
 import HeaderNav from "./_components/HeaderNav";
 import SideNav from "./_components/SideNav";
 import Loading from "./loading";
@@ -8,12 +9,14 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+
   return (
     <Suspense fallback={<Loading />}>
-      <div className="grid h-full w-full bg-slate-200 dark:bg-gray-700 md:h-screen md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-        <SideNav />
-        <div className="flex flex-col">
-          <HeaderNav />
+      <div className="flex h-full w-full bg-slate-200 dark:bg-gray-700 md:h-screen">
+        <SideNav isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+        <div className="flex flex-1 flex-col">
+          <HeaderNav isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           <div className="bg-slate-200 dark:bg-slate-600">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>

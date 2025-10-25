@@ -1,11 +1,11 @@
 "use client";
-import { TamplateTypes } from "@/utils/constant";
 import Image from "next/image";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { useState } from "react";
+import { TamplateRow } from "./TamplatelistSection";
 
-export default function TamplateCard(data: TamplateTypes) {
+export default function TamplateCard(data: TamplateRow) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ export default function TamplateCard(data: TamplateTypes) {
         onMouseLeave={() => setIsHovered(false)}
       >
         <Image
-          src={data.icon}
+          src={data.icon }
           alt="cardImg"
           loading="lazy"
           height={100}
@@ -42,7 +42,7 @@ export default function TamplateCard(data: TamplateTypes) {
                 : "from-[#d41872] to-[#ff0066] hover:bg-gradient-to-r hover:text-transparent"
             }`}
           >
-            {data.desc}
+            {data.description}
           </CardDescription>
         </div>
       </Card>

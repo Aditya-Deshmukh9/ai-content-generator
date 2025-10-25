@@ -17,20 +17,21 @@ export const metadata: Metadata = {
   description: "ContentGenie is AI content Genration webapp",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider dynamic>
       <html lang="en" suppressHydrationWarning>
         <body className={cn(outfit.className, "scroll-smooth antialiased")}>
           <StoreProvider>
             <ThemeProvider attribute="class" defaultTheme="system">
               <Suspense fallback={<Loading />}>
-                <ScrollToTop/>
-                {children}</Suspense>
+                <ScrollToTop />
+                {children}
+              </Suspense>
             </ThemeProvider>
             <Toaster />
           </StoreProvider>
