@@ -127,7 +127,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         const browser = await puppeteer.launch({
             args: isLocal ? [] : chromium.args,
-            defaultViewport: isLocal ? null : chromium.defaultViewport,
+            defaultViewport: null,
             executablePath: isLocal
                 ? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
                 : await chromium.executablePath(),
@@ -145,7 +145,11 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         await browser.close();
 
-        return new NextResponse(pdfBuffer, {
+        // Ensure the body is a valid BodyInit for NextResponse (ArrayBuffer / Buffer / Uint8Array)
+        // Puppeteer's page.pdf returns a Buffer in Node, but TypeScript may infer a Uint8Array-like type;
+        // convert to a Buffer and cast to BodyInit to satisfy the type checker.
+        const body = Buffer.isBuffer(pdfBuffer) ? pdfBuffer : Buffer.from(pdfBuffer);
+        return new NextResponse(body as unknown as BodyInit, {
             headers: {
                 "Content-Type": "application/pdf",
                 "Content-Disposition": 'attachment; filename="styled-markdown.pdf"',
