@@ -43,7 +43,6 @@ const PricePlans: React.FC = () => {
       name: "ADITYA DESHMUKH",
       description: "Monthly Subscription",
       handler: (resp: any) => {
-        console.log(resp);
         {
           if (resp) {
             saveSubscription(resp?.razorpay_payment_id);

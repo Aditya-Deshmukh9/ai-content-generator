@@ -1,12 +1,19 @@
 "use client";
-import React, { JSX, useState } from "react";
+import React, { JSX } from "react";
 import Link from "next/link";
-import { Home, History, Settings2, ReceiptIndianRupee, LucideIcon, ChevronRight, ChevronLeft, ArrowRightFromLine, ArrowLeftFromLine } from "lucide-react";
+import {
+  Home,
+  History,
+  Settings2,
+  ReceiptIndianRupee,
+  LucideIcon,
+} from "lucide-react";
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/app/hooks";
+import { RootState } from "@/redux/store";
 
 const UsageTrack = dynamic(() => import("./UsageTrack"));
 
@@ -17,8 +24,12 @@ interface NavItem {
   total?: number;
 }
 
-function SideNav({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setIsCollapsed: (value: boolean) => void }):JSX.Element {
+function SideNav(): JSX.Element {
   const pathname = usePathname();
+  const { isSiderBarOpen } = useAppSelector(
+    (state: RootState) => state.SideBarSlice,
+  );
+
   const Navtext: NavItem[] = [
     {
       link: "/dashboard",
@@ -45,15 +56,17 @@ function SideNav({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setIsC
 
   return (
     <div
-      className={`hidden border-r bg-muted/40 bg-white dark:bg-secondary md:block transition-all duration-300 ${isCollapsed ? "md:w-[70px]" : "md:w-[220px] lg:w-[280px]"
-        }`}
+      className={`hidden border-r bg-muted/40 bg-white transition-all duration-300 dark:bg-secondary md:block ${
+        isSiderBarOpen ? "md:w-[70px]" : "md:w-[220px] lg:w-[280px]"
+      }`}
     >
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center justify-between border-b px-4 lg:h-[60px] lg:px-6">
           <Link
             href="/"
-            className={`flex items-center gap-2 font-semibold ${isCollapsed ? "justify-center w-full" : ""
-              }`}
+            className={`flex items-center gap-2 font-semibold ${
+              isSiderBarOpen ? "w-full justify-center" : ""
+            }`}
           >
             <Image
               src="/logo.svg"
@@ -62,11 +75,9 @@ function SideNav({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setIsC
               width={100}
               className="h-10 w-10"
             />
-            {!isCollapsed && <span>Ai Generator</span>}
+            {!isSiderBarOpen && <span>Ai Generator</span>}
           </Link>
         </div>
-
-     
 
         {/* sidenav links */}
         <div className="flex-1">
@@ -75,18 +86,19 @@ function SideNav({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setIsC
               <Link
                 key={index}
                 href={`${text.link}`}
-                className={`dark:text-white flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${pathname === text.link ? "activeNavText" : "navText"
-                  } ${isCollapsed ? "justify-center" : ""}`}
-                title={isCollapsed ? text.text : ""}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary dark:text-white ${
+                  pathname === text.link ? "activeNavText" : "navText"
+                } ${isSiderBarOpen ? "justify-center" : ""}`}
+                title={isSiderBarOpen ? text.text : ""}
               >
                 <text.icon className="h-5 w-5" />
-                {!isCollapsed && <h2>{text.text}</h2>}
+                {!isSiderBarOpen && <h2>{text.text}</h2>}
               </Link>
             ))}
           </nav>
         </div>
 
-        {!isCollapsed && <UsageTrack />}
+        {!isSiderBarOpen && <UsageTrack />}
       </div>
     </div>
   );

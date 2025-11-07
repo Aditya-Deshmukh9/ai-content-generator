@@ -1,11 +1,15 @@
 "use client";
+
 import { Editor } from "@toast-ui/react-editor";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, FileDown } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ExportToPdf from "@/app/dashboard/_components/ExportToPdf";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/theme/toastui-editor-dark.css";
+import { useTheme } from "next-themes";
+import HeaderOutSection from "./HeaderOutSection";
 
 interface OutputSectionProps {
   aiOutput: string;
@@ -14,16 +18,38 @@ interface OutputSectionProps {
 export const OutputSection: React.FC<OutputSectionProps> = ({ aiOutput }) => {
   const editorRef = useRef<Editor>(null);
   const { toast } = useToast();
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [editorContent, setEditorContent] = useState(aiOutput || "");
 
+  // 👇 next-themes doesn't have `theme` available on first render (SSR)
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current?.getInstance().setMarkdown(aiOutput);
+    setMounted(true);
+  }, []);
+
+  // When AI output changes, set it in editor
+  useEffect(() => {
+    if (editorRef.current && aiOutput) {
+      const instance = editorRef.current.getInstance();
+      instance.setMarkdown(aiOutput);
+      setEditorContent(aiOutput);
     }
   }, [aiOutput]);
 
+  const handleEditorChange = () => {
+    if (editorRef.current) {
+      const instance = editorRef.current.getInstance();
+      const content = instance.getMarkdown();
+      setEditorContent(content);
+    }
+  };
+
+  // 🧠 Re-render the Editor only when the theme changes
+  const currentTheme = mounted && theme === "dark" ? "dark" : "light";
+
   const copyToClipboard = () => {
     if (editorRef.current) {
-      const content = editorRef.current?.getInstance().getMarkdown();
+      const content = editorRef.current.getInstance().getMarkdown();
       if (content) {
         navigator.clipboard.writeText(content).then(
           () => {
@@ -40,42 +66,27 @@ export const OutputSection: React.FC<OutputSectionProps> = ({ aiOutput }) => {
     }
   };
 
-
-
-  // const SendEmail = () => { };
+  // Prevents hydration mismatch
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div className="col-span-2 h-fit bg-white">
-      <div className="flex items-center justify-between p-2">
-        <h2 className="ml-4 font-bold text-black">Your Result</h2>
-        <div className="flex gap-2">
-          <Button
-            onClick={copyToClipboard}
-            variant="bgColor"
-            className="gap-x-2"
-          >
-            <Copy /> Copy
-          </Button>
-          <ExportToPdf aiOutput={aiOutput} />
-          {/* <Button
-            onClick={SendEmail}
-            variant="bgColor"
-            className="gap-x-2 bg-sky-400"
-          >
-            <FileDown /> Send Email
-          </Button> */}
-        </div>
-      </div>
+    <div className="col-span-2 h-fit border">
+      <HeaderOutSection aiOutput={aiOutput} editorRef={editorRef} />
       <div className="h-full w-full">
+        {/* 🔥 Key prop forces re-render on theme change */}
         <Editor
+          key={currentTheme}
           ref={editorRef}
           initialValue="Your result will appear here!"
           initialEditType="wysiwyg"
           height="650px"
+          theme={currentTheme}
           useCommandShortcut={true}
+          onChange={handleEditorChange}
         />
       </div>
     </div>
   );
 };
-

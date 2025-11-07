@@ -34,6 +34,9 @@ import Link from "next/link";
 import UsageTrack from "./UsageTrack";
 import { usePathname } from "next/navigation";
 import NewTamplate from "./NewTamplate";
+import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { RootState } from "@/redux/store";
+import { SideBarToggle } from "@/redux/sidebar";
 
 interface NavItem {
   link: string;
@@ -41,9 +44,13 @@ interface NavItem {
   icon: ReactNode;
   total?: number;
 }
-function HeaderNav({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setIsCollapsed: (value: boolean) => void }): JSX.Element {
+function HeaderNav(): JSX.Element {
   const pathname = usePathname();
   const [open, setOpen] = useState<boolean>(false);
+  const { isSiderBarOpen } = useAppSelector((state:RootState) => state.SideBarSlice);
+  const dispatch = useAppDispatch()
+  
+
   const Navtext: NavItem[] = [
     {
       link: "/dashboard",
@@ -105,10 +112,10 @@ function HeaderNav({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setI
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={() => dispatch(SideBarToggle(!isSiderBarOpen))}
           className="h-8 w-8 mr-4"
         >
-          {isCollapsed ? (
+          {isSiderBarOpen ? (
             <ArrowRightFromLine className="h-4 w-4" />
           ) : (
             <ArrowLeftFromLine className="h-4 w-4" />

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { RootState } from "@/redux/store";
 import { calculateTotalHistory, fetchHistoryData } from "@/redux/userSlice";
+import { useSelector } from "react-redux";
 
 function calculateTotalPages(total: number, limit: number): number {
   if (limit <= 0 || total <= 0) return 1;
@@ -26,11 +27,13 @@ function HistoryTable() {
   const [page, setPage] = useState(1);
   const limit = 8;
   const dispatch = useAppDispatch();
-
+  
   const { data, loading, totalHistoryText, totalHistoryNo, total } =
     useAppSelector((state: RootState) => state.user);
 
-  const totalPages = calculateTotalPages(total, limit);
+  const totalPages = useMemo(() => {
+    return calculateTotalPages(total, limit)
+  },[total, limit])
 
   useEffect(() => {
     if (user?.primaryEmailAddress?.emailAddress) {
@@ -44,7 +47,9 @@ function HistoryTable() {
     } else {
       console.error("User email is not available");
     }
-  }, [dispatch, user, page]);
+
+    return;
+  }, [user?.primaryEmailAddress?.emailAddress, page]);
 
   useEffect(() => {
     dispatch(calculateTotalHistory(data));

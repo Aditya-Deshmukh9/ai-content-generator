@@ -18,7 +18,8 @@ export interface TamplateRow {
 };
 
 function TamplatelistSection({ SearcInput }: any) {
-  const [tamplateData, settamplateData] = useState<TamplateRow[]>([])
+  const [tamplateData, settamplateData] = useState<TamplateRow[]>([]);
+
   const filterTamplate = useMemo(() => {
     if (!SearcInput) {
       return tamplateData;
@@ -35,8 +36,8 @@ function TamplatelistSection({ SearcInput }: any) {
   useEffect(() => {
     const fetchData = async () => {
       const data = await db.select().from(tamplate).limit(10);
-      settamplateData(data)
-    }
+      settamplateData(data);
+    };
     fetchData();
   }, []);
 

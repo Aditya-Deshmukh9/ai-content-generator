@@ -24,6 +24,7 @@ export const UserSubscription = pgTable("userSubscription", {
   active: boolean("active"),
   paymentId: varchar("paymentId"),
   joinDate: varchar("joinDate"),
+  word_count: varchar("word_count")
 });
 
 export const tamplate = pgTable("tamplate", {

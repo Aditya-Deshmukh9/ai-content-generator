@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, use, useEffect } from "react";
+import React, { useMemo, use, useEffect, useState } from "react";
 import { FormSection } from "./_components/FormSection";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -11,6 +11,10 @@ import { useSearchParams } from "next/navigation";
 import { Tamplates } from "@/utils/constant";
 import { generateAiContent } from "@/redux/aiContentSlice";
 import { RootState } from "@/redux/store";
+import { db } from "@/utils/db";
+import { tamplate } from "@/utils/schema";
+import { eq } from "drizzle-orm";
+import { TamplateRow } from "../../_components/TamplatelistSection";
 
 function TamplateDetailsPage({
   params,
@@ -24,17 +28,26 @@ function TamplateDetailsPage({
     (state: RootState) => state.aiContent,
   );
   const historyQuery = useSearchParams();
+  const [tamplateData, settamplateData] = useState<TamplateRow | null>(
+    {} as TamplateRow,
+  );
+  // for fetch tamplate data
+  useEffect(() => {
+    const fetchData = async () => {
+      const data: TamplateRow[] = await db
+        .select()
+        .from(tamplate)
+        .where(eq(tamplate.slug, slug));
+
+      settamplateData(data[0]);
+    };
+    if (slug) fetchData();
+  }, [slug]);
 
   const historyData = historyQuery.get("history");
-  console.log(historyData);
-
-  const selectedTamplates = useMemo(
-    () => Tamplates?.find((item) => item?.slug === slug),
-    [slug],
-  );
 
   const GenerateAiContent = (formData: any) => {
-    const selectedPrompt = selectedTamplates?.aiPrompt;
+    const selectedPrompt = tamplateData?.ai_prompt;
     const userEmail: any = user?.primaryEmailAddress?.emailAddress;
 
     dispatch(
@@ -58,7 +71,7 @@ function TamplateDetailsPage({
         {/* @ts-ignore */}
         <FormSection
           userFormInput={(e: any) => GenerateAiContent(e)}
-          selectedTamplates={selectedTamplates}
+          selectedTamplates={tamplateData}
           loading={loading}
         />
 

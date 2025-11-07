@@ -5,28 +5,29 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useMemo } from "react";
+import { Loader } from "lucide-react";
 
 const UsageTrack: React.FC = () => {
-  const dispatch = useAppDispatch();
   const { user } = useUser();
   const { data, loading, error, userSubscriptionDetails } = useAppSelector(
     (state: RootState) => state?.user,
   );
 
   useEffect(() => {
-    if (user?.primaryEmailAddress?.emailAddress) {
-      dispatch(
-        fetchUserSubscriptionData(user?.primaryEmailAddress?.emailAddress),
-      );
-      dispatch(
-        fetchHistoryData({
-          userEmail: user?.primaryEmailAddress?.emailAddress,
-          page: 1,
-          limit: 10,
-        }),
-      );
+    if (!user?.primaryEmailAddress?.emailAddress) return;
+
+    if (!data.length) {
+      fetchHistoryData({
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        page: 1,
+        limit: 10,
+      });
     }
-  }, [dispatch, user]);
+
+    if (!userSubscriptionDetails?.length) {
+      fetchUserSubscriptionData(user?.primaryEmailAddress?.emailAddress);
+    }
+  }, [user?.primaryEmailAddress?.emailAddress]);
 
   const getTotalUsage = useMemo(() => {
     return data.reduce(
@@ -53,6 +54,14 @@ const UsageTrack: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
+  if (loading) {
+    return (
+      <div className="flex h-10 items-center justify-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="mx-4 mb-6 mt-auto">
       <div className="color rounded-lg">
@@ -61,7 +70,7 @@ const UsageTrack: React.FC = () => {
           <div className="mt-4 h-2 w-full rounded-full bg-pink-400">
             <div
               className="h-2 rounded-full bg-white"
-              style={{ width: `${creditPercentage}%`, maxWidth: "100%" }}
+              style={{ width: `${creditPercentage || ""}%`, maxWidth: "100%" }}
             ></div>
           </div>
           <div className="mt-2 line-clamp-1 flex gap-1 text-sm font-light text-white">

@@ -31,6 +31,7 @@ interface DataState {
   page: number;
   limit: number;
   total: number;
+  word_count: number;
 }
 
 function calculateTotal(data: HISTORY[]): number {
@@ -102,6 +103,7 @@ const initialState: DataState = {
   page: 1,
   limit: 10,
   total: 0,
+  word_count: 0,
 };
 
 const userSlice = createSlice({
